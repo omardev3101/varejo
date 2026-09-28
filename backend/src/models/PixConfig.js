@@ -9,8 +9,7 @@ module.exports = (sequelize) => {
         },
         tenant_id: {
             type: DataTypes.INTEGER,
-            allowNull: false,
-            defaultValue: 1
+            allowNull: false
         },
         provider: {
             type: DataTypes.STRING,
