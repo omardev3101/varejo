@@ -1,0 +1,197 @@
+.pix-config-page {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: #0f172a;
+    min-height: 100vh;
+    color: #f8fafc;
+}
+
+.pix-config-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 20px;
+}
+
+.config-card {
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 24px;
+    backdrop-filter: blur(10px);
+}
+
+.config-card h3 {
+    margin: 0 0 16px 0;
+    font-size: 18px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.toggle-switch-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(15, 23, 42, 0.8);
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.toggle-switch-box input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #10b981;
+    cursor: pointer;
+}
+
+.switch-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #cbd5e1;
+    cursor: pointer;
+}
+
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.field-label-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.btn-upload-file {
+    background: #0284c7;
+    color: #ffffff;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s;
+}
+
+.btn-upload-file:hover {
+    background: #0369a1;
+}
+
+.config-card select,
+.config-card textarea {
+    padding: 12px 14px;
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+}
+
+.config-card textarea {
+    font-family: monospace;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.config-card select:focus,
+.config-card textarea:focus {
+    border-color: #10b981;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.test-result-box {
+    margin-top: 16px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.test-result-box.success {
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid #10b981;
+    color: #34d399;
+}
+
+.test-result-box.error {
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid #ef4444;
+    color: #f87171;
+}
+
+.webhook-box {
+    display: flex;
+    gap: 8px;
+    margin: 12px 0 20px 0;
+}
+
+.webhook-box input {
+    flex: 1;
+    padding: 10px;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 11px;
+    color: #38bdf8;
+}
+
+.btn-copy {
+    background: #0284c7;
+    color: #ffffff;
+    border: none;
+    padding: 0 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.cora-steps-box {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.cora-steps-box h4 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: #38bdf8;
+}
+
+.cora-steps-box ol {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 12px;
+    color: #cbd5e1;
+    line-height: 1.6;
+}
+
+@media (max-width: 992px) {
+    .pix-config-grid {
+        grid-template-columns: 1fr;
+    }
+}

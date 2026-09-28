@@ -1,0 +1,30 @@
+.supplier-info-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.supplier-avatar {
+    width: 36px;
+    height: 36px;
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+}
+
+.sub-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.sub-info small {
+    color: var(--text-muted);
+    font-size: 11px;
+}
+
+.supplier-form {
+    padding: 24px 0;
+}

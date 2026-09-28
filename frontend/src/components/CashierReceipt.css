@@ -1,0 +1,99 @@
+.cashier-receipt-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+    z-index: 2000;
+    overflow-y: auto;
+}
+
+.cashier-receipt-content {
+    background: white;
+    padding: 20px;
+    width: 380px;
+    height: fit-content;
+    color: black !important;
+}
+
+.cashier-receipt-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.receipt-paper {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    line-height: 1.2;
+    color: #000;
+}
+
+.receipt-header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.receipt-header h2 {
+    font-size: 16px;
+    margin: 0 0 4px 0;
+}
+
+.receipt-header p {
+    margin: 2px 0;
+}
+
+.receipt-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 2px 0;
+}
+
+.receipt-section-title {
+    text-align: center;
+    font-weight: bold;
+    margin: 6px 0;
+}
+
+@media print {
+    html, body, #root {
+        background: white !important;
+        background-color: white !important;
+        color: black !important;
+    }
+    body * {
+        visibility: hidden;
+    }
+    .cashier-receipt-overlay,
+    .cashier-receipt-overlay * {
+        visibility: visible;
+    }
+    .cashier-receipt-overlay {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100% !important;
+        background: white !important;
+        color: black !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: block !important;
+    }
+    .cashier-receipt-content {
+        width: 80mm !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        background: white !important;
+        color: black !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+    .no-print, .no-print * {
+        display: none !important;
+        visibility: hidden !important;
+    }
+}

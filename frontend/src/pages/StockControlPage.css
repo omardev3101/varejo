@@ -1,0 +1,157 @@
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 24px;
+}
+
+.stat-card svg {
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+}
+
+.stat-card.primary svg { color: var(--primary); }
+.stat-card.secondary svg { color: var(--secondary); }
+.stat-card.warning svg { color: var(--accent); }
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-info span {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.stat-info strong {
+    font-size: 20px;
+    color: white;
+}
+
+.filters-section {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    margin-bottom: 24px;
+    align-items: flex-end;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filter-group.main {
+    flex: 1;
+    position: relative;
+}
+
+.filter-group.main svg {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+}
+
+.filter-group.main input {
+    padding-left: 40px;
+}
+
+.filter-group label {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.filter-group input, .filter-group select {
+    height: 40px;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0 12px;
+    color: white;
+}
+
+.stock-table tbody tr {
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.stock-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.expanded-header {
+    background: rgba(99, 102, 241, 0.05) !important;
+    border-left: 3px solid var(--primary);
+}
+
+.batch-row {
+    background: rgba(0, 0, 0, 0.2) !important;
+}
+
+.batch-details {
+    padding: 20px 40px;
+}
+
+.batch-details h4 {
+    font-size: 13px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+}
+
+.batch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.batch-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.b-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 8px;
+}
+
+.b-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.b-stat {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+}
+
+.b-stat small { color: var(--text-muted); }
+
+.expired-text {
+    color: var(--danger);
+    font-weight: 700;
+}

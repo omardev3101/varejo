@@ -1,0 +1,404 @@
+.page-wrapper {
+    padding: 30px;
+    min-height: 100%;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.title-icon {
+    color: var(--primary);
+    filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.4));
+}
+
+.header-title h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0;
+}
+
+.page-subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin: 4px 0 0 0;
+}
+
+/* Terminals Grid */
+.terminals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(285px, 1fr));
+    gap: 24px;
+    max-width: 1200px;
+}
+
+/* Terminal Card */
+.terminal-card {
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.terminal-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.5);
+    border-color: rgba(99, 102, 241, 0.4);
+}
+
+.terminal-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.terminal-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+    transition: var(--transition);
+}
+
+.terminal-card.active .terminal-icon-wrapper {
+    background: rgba(16, 185, 129, 0.12);
+    border-color: rgba(16, 185, 129, 0.25);
+    color: var(--secondary);
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.1);
+}
+
+.terminal-card.inactive .terminal-icon-wrapper {
+    background: rgba(239, 68, 68, 0.08);
+    border-color: rgba(239, 68, 68, 0.2);
+    color: var(--danger);
+}
+
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-badge.active {
+    background: rgba(16, 185, 129, 0.12);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.status-badge.inactive {
+    background: rgba(239, 68, 68, 0.12);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.terminal-card-body h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.terminal-id {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin: 6px 0 0 0;
+}
+
+.terminal-card-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 16px;
+}
+
+.terminal-card-actions .btn-action {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+    transition: var(--transition);
+}
+
+.terminal-card-actions .btn-action.edit:hover {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--primary);
+    border-color: rgba(99, 102, 241, 0.3);
+}
+
+.terminal-card-actions .btn-action.delete:hover {
+    background: rgba(239, 68, 68, 0.08);
+    color: var(--danger);
+    border-color: rgba(239, 68, 68, 0.25);
+}
+
+/* Empty State */
+.no-terminals {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 40px;
+    text-align: center;
+    border-radius: 20px;
+    grid-column: 1 / -1;
+    max-width: 600px;
+    margin: 40px auto;
+}
+
+.empty-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.03); }
+    70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
+.no-terminals h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 8px;
+}
+
+.no-terminals p {
+    font-size: 14px;
+    color: var(--text-muted);
+    max-width: 340px;
+    line-height: 1.6;
+}
+
+/* Spinner */
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px;
+    gap: 16px;
+    color: var(--text-muted);
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.05);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Modal styling */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 32px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.modal-header h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-main);
+    margin: 0;
+}
+
+.close-btn {
+    background: transparent;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+}
+
+.simple-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.form-group input,
+.form-group select {
+    height: 44px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 0 16px;
+    color: var(--text-main);
+    font-size: 14px;
+    transition: var(--transition);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--primary);
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.form-group select option {
+    background: #1e293b;
+    color: var(--text-main);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.btn-cancel {
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+}
+
+.btn-cancel:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+}
+
+.btn-save {
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+    background: var(--primary);
+    transition: var(--transition);
+}
+
+.btn-save:hover {
+    background: var(--primary-dark);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+/* Tenant selection style enhancements */
+.header-actions-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.tenant-select-input {
+    height: 40px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 0 16px;
+    color: var(--text-main);
+    font-size: 14px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.tenant-select-input:focus {
+    border-color: var(--primary);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.tenant-select-input option {
+    background: #1e293b;
+    color: var(--text-main);
+}
+
+.terminal-tenant-name {
+    font-size: 12px;
+    color: var(--primary);
+    margin-top: 6px;
+    font-weight: 500;
+}

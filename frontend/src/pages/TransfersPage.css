@@ -1,0 +1,66 @@
+.transfers-page {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.unit-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+}
+
+.btn-success {
+    background-color: #10b981;
+    color: white;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #059669;
+}
+
+.items-section {
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 1rem;
+
+}
+
+.items-section h3 {
+    margin-top: 0;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.no-items {
+    padding: 1.5rem;
+    text-align: center;
+    opacity: 0.6;
+    font-size: 0.9rem;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.items-list-preview ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0 0;
+}
+
+.items-list-preview li {
+    padding: 0.4rem 0;
+    font-size: 0.9rem;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+}

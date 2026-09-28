@@ -1,0 +1,70 @@
+.admin-dashboard {
+    padding: 24px;
+}
+
+.stats-cards.master {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.stat-card.primary { background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.3), rgba(var(--primary-rgb), 0.1)); }
+.stat-card.secondary { background: linear-gradient(135deg, rgba(var(--secondary-rgb), 0.3), rgba(var(--secondary-rgb), 0.1)); }
+.stat-card.info { background: linear-gradient(135deg, rgba(56, 189, 248, 0.3), rgba(56, 189, 248, 0.1)); }
+
+.store-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.store-row {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    transition: transform 0.2s;
+}
+
+.store-row:hover {
+    transform: translateX(4px);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.store-rank {
+    width: 32px;
+    height: 32px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    margin-right: 16px;
+}
+
+.store-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.store-name {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.store-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.store-val {
+    font-size: 18px;
+}
+
+.store-row.debt {
+    border-left: 4px solid var(--danger);
+}

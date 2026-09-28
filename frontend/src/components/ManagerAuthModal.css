@@ -1,0 +1,60 @@
+/* ManagerAuthModal styles */
+.auth-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 16px;
+}
+
+.auth-modal-card {
+    background: #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 520px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    color: #ffffff;
+}
+
+.auth-modal-header {
+    padding: 18px 20px;
+    background: rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.auth-modal-title {
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #f87171;
+}
+
+.auth-modal-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.auth-modal-footer {
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}

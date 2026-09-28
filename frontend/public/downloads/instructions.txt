@@ -1,0 +1,2 @@
+Coloque o arquivo compilado "VarejoPro POS Setup.exe" nesta pasta.
+Durante o build de produção (npm run build), esta pasta e seu conteúdo serão copiados para a raiz pública do servidor sob o caminho "/varejo/downloads/VarejoPro-POS-Setup.exe".

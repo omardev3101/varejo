@@ -1,0 +1,1132 @@
+/* Drogasil-style E-Commerce Storefront CSS for VarejoPro */
+
+.drogasil-storefront {
+    min-height: 100vh;
+    background-color: #f8fafc;
+    color: #1e293b;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+/* Top Nav Announcement Bar */
+.top-nav-bar {
+    background: #064e3b;
+    color: #ecfdf5;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 0;
+}
+
+.nav-banner-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-banner-flex .link-item {
+    color: #a7f3d0;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+/* Primary Drogasil Header */
+.main-drogasil-header {
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 16px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.header-grid {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    gap: 20px;
+}
+
+.brand-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.brand-badge {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, #059669, #10b981);
+    color: #ffffff;
+    font-weight: 900;
+    font-size: 18px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+}
+
+.brand-text h2 {
+    font-size: 20px;
+    margin: 0;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.brand-text h2 .highlight-tag {
+    color: #059669;
+}
+
+.brand-text p {
+    font-size: 11px;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Big Search Input */
+.drogasil-search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.drogasil-search-box input {
+    width: 100%;
+    height: 46px;
+    background: #f1f5f9;
+    border: 2px solid #e2e8f0;
+    border-radius: 24px;
+    padding: 0 40px 0 46px;
+    font-size: 14px;
+    color: #0f172a;
+    transition: all 0.2s;
+}
+
+.drogasil-search-box input:focus {
+    outline: none;
+    background: #ffffff;
+    border-color: #10b981;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+}
+
+.drogasil-search-box .search-icon {
+    position: absolute;
+    left: 16px;
+    color: #059669;
+}
+
+.drogasil-search-box .clear-search {
+    position: absolute;
+    right: 16px;
+    color: #94a3b8;
+    cursor: pointer;
+}
+
+/* Location Selector */
+.location-selector-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 6px 14px;
+    border-radius: 20px;
+}
+
+.location-selector-box .loc-icon {
+    color: #059669;
+}
+
+.location-selector-box .loc-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.location-selector-box .label {
+    font-size: 10px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.garage-select {
+    border: none;
+    background: transparent;
+    font-size: 12px;
+    font-weight: 700;
+    color: #0f172a;
+    cursor: pointer;
+    outline: none;
+}
+
+/* Account & Cart Actions */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.btn-account-login {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    border: 1px solid #cbd5e1;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    color: #0f172a;
+    text-align: left;
+    transition: background 0.2s;
+}
+
+.btn-account-login:hover {
+    background: #f1f5f9;
+}
+
+.btn-account-login .block {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.btn-account-login .sub {
+    font-size: 10px;
+    color: #64748b;
+}
+
+.socio-user-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    padding: 6px 12px;
+    border-radius: 14px;
+}
+
+.socio-user-card .user-avatar {
+    width: 32px;
+    height: 32px;
+    background: #10b981;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.socio-user-card .user-details {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+}
+
+.socio-user-card .user-name {
+    font-weight: 700;
+    color: #064e3b;
+}
+
+.socio-user-card .user-credit {
+    font-size: 11px;
+    color: #047857;
+}
+
+.socio-user-card .val {
+    color: #059669;
+}
+
+.btn-exit {
+    background: transparent;
+    border: none;
+    color: #ef4444;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.drogasil-cart-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #059669, #047857);
+    color: #ffffff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
+    transition: transform 0.2s;
+}
+
+.drogasil-cart-btn:hover {
+    transform: translateY(-2px);
+}
+
+.drogasil-cart-btn .icon-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.drogasil-cart-btn .badge {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    background: #ef4444;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cart-price-info {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.cart-price-info .cart-label {
+    font-size: 10px;
+    color: #a7f3d0;
+}
+
+.cart-price-info .cart-total {
+    font-size: 14px;
+    font-weight: 800;
+}
+
+/* Category Nav Ribbon */
+.category-ribbon-bar {
+    background: #0f172a;
+    border-bottom: 1px solid #1e293b;
+    padding: 8px 0;
+}
+
+.ribbon-flex {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.ribbon-item {
+    background: transparent;
+    border: none;
+    color: #cbd5e1;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 16px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.ribbon-item:hover, .ribbon-item.active {
+    background: #10b981;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.ribbon-item.highlight-popular {
+    color: #fb7185;
+}
+
+.ribbon-item.highlight-popular.active {
+    background: #f43f5e;
+    color: #ffffff;
+}
+
+/* Hero Banners Section */
+.hero-banners-section {
+    padding: 24px 0;
+}
+
+.hero-banners-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.hero-banner-card {
+    padding: 24px;
+    border-radius: 20px;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+}
+
+.hero-banner-card:hover {
+    transform: translateY(-4px);
+}
+
+.hero-banner-card.card-emerald {
+    background: linear-gradient(135deg, #059669, #10b981);
+}
+
+.hero-banner-card.card-rose {
+    background: linear-gradient(135deg, #e11d48, #f43f5e);
+}
+
+.hero-banner-card.card-blue {
+    background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+}
+
+.hero-banner-card .card-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    align-self: flex-start;
+    margin-bottom: 12px;
+}
+
+.hero-banner-card h3 {
+    font-size: 18px;
+    margin: 0 0 8px 0;
+    font-weight: 800;
+}
+
+.hero-banner-card p {
+    font-size: 13px;
+    opacity: 0.9;
+    margin: 0 0 20px 0;
+}
+
+.hero-banner-card .btn-banner {
+    align-self: flex-start;
+    background: #ffffff;
+    color: #0f172a;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+/* Circular Categories */
+.circular-categories-section {
+    padding: 10px 0 24px 0;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 16px 0;
+}
+
+.circle-bubbles-flex {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+}
+
+.bubble-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    min-width: 90px;
+}
+
+.bubble-icon-box {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 3px solid #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.bubble-item:hover .bubble-icon-box, .bubble-item.selected .bubble-icon-box {
+    transform: scale(1.08);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.bubble-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+    text-align: center;
+}
+
+.bubble-item.selected .bubble-name {
+    color: #059669;
+    font-weight: 800;
+}
+
+/* Products Grid */
+.drogasil-catalog-main {
+    padding-bottom: 60px;
+}
+
+.catalog-header-bar {
+    margin-bottom: 20px;
+}
+
+.catalog-header-bar h2 {
+    font-size: 20px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+}
+
+.catalog-header-bar .count-tag {
+    font-size: 14px;
+    color: #64748b;
+    font-weight: 400;
+}
+
+.drogasil-products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.drogasil-product-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.drogasil-product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    border-color: #10b981;
+}
+
+.card-top-badges {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.badge-popular {
+    background: #fff1f2;
+    color: #e11d48;
+    border: 1px solid #fecdd3;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 8px;
+}
+
+.badge-socio {
+    background: #ecfdf5;
+    color: #047857;
+    border: 1px solid #a7f3d0;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 8px;
+}
+
+.product-thumb-container {
+    height: 160px;
+    background: #ffffff;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    padding: 8px;
+    overflow: hidden;
+    border: 1px solid #f1f5f9;
+}
+
+.product-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.drogasil-product-card:hover .product-img {
+    transform: scale(1.08);
+}
+
+.cart-thumb {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: #ffffff;
+    padding: 4px;
+    border: 1px solid #e2e8f0;
+    margin-right: 10px;
+}
+
+.thumb-placeholder {
+    color: #94a3b8;
+}
+
+.product-card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.product-category {
+    font-size: 10px;
+    font-weight: 800;
+    color: #059669;
+    text-transform: uppercase;
+}
+
+.product-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 4px 0 6px 0;
+    line-height: 1.3;
+}
+
+.active-principle {
+    font-size: 11px;
+    color: #64748b;
+    margin-bottom: 12px;
+    display: block;
+}
+
+.price-container {
+    margin-top: auto;
+    margin-bottom: 14px;
+}
+
+.old-price {
+    font-size: 12px;
+    color: #94a3b8;
+    text-decoration: line-through;
+    display: block;
+}
+
+.current-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.current-price-row .currency {
+    font-size: 14px;
+    font-weight: 800;
+    color: #059669;
+}
+
+.current-price-row .main-price {
+    font-size: 22px;
+    font-weight: 900;
+    color: #059669;
+}
+
+.current-price-row .pix-tag {
+    font-size: 10px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.btn-drogasil-buy {
+    width: 100%;
+    background: linear-gradient(135deg, #059669, #10b981);
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+    transition: background 0.2s;
+}
+
+.btn-drogasil-buy:hover {
+    background: #047857;
+}
+
+/* Cart Drawer Modal */
+.cart-drawer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 300;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.cart-drawer-content {
+    width: 100%;
+    max-width: 440px;
+    background: #ffffff;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+}
+
+.drawer-header h2 {
+    font-size: 16px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.cart-item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+}
+
+.cart-item-row h4 {
+    font-size: 13px;
+    margin: 0;
+    font-weight: 700;
+}
+
+.cart-item-row .unit-price {
+    font-size: 12px;
+    color: #059669;
+    font-weight: 700;
+}
+
+.qty-picker {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    padding: 4px 8px;
+    border-radius: 8px;
+}
+
+.qty-picker button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #0f172a;
+}
+
+.drawer-footer {
+    border-top: 1px solid #e2e8f0;
+    padding: 20px;
+    background: #f8fafc;
+}
+
+.total-summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+
+.summary-val {
+    font-size: 22px;
+    font-weight: 900;
+    color: #059669;
+}
+
+.btn-checkout-drogasil {
+    width: 100%;
+    background: linear-gradient(135deg, #059669, #10b981);
+    color: #ffffff;
+    border: none;
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-checkout-drogasil.blue {
+    background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+}
+
+.btn-login-prompt {
+    width: 100%;
+    background: #3b82f6;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+/* Radio Group in Checkout */
+.radio-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.radio-card.active {
+    border-color: #059669;
+    background: #ecfdf5;
+    font-weight: 700;
+}
+
+/* Drogasil Footer */
+.drogasil-footer {
+    background: #0f172a;
+    color: #94a3b8;
+    padding-top: 40px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #1e293b;
+}
+
+.footer-col h4 {
+    color: #ffffff;
+    font-size: 14px;
+    margin: 0 0 14px 0;
+    font-weight: 700;
+}
+
+.footer-col p {
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+}
+
+.footer-col ul li {
+    margin-bottom: 8px;
+}
+
+.pay-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.pay-badge {
+    background: #1e293b;
+    color: #cbd5e1;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid #334155;
+}
+
+.footer-bottom {
+    background: #090d16;
+    padding: 16px 0;
+    font-size: 12px;
+}
+
+.bottom-flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Order Confirmation & PIX Window Modal */
+.pix-result-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeInModal 0.25s ease-out;
+}
+
+@keyframes fadeInModal {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.pix-result-card {
+    background: #ffffff;
+    border: 2px solid #10b981;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 32px 28px;
+    text-align: center;
+    box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.25), 0 10px 30px rgba(0, 0, 0, 0.4);
+    position: relative;
+    color: #1e293b;
+}
+
+.pix-result-card .modal-close-icon {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    background: #f1f5f9;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pix-result-card .modal-close-icon:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+.pix-result-card .success-icon {
+    color: #10b981;
+    margin-bottom: 12px;
+}
+
+.pix-result-card h2 {
+    margin: 0 0 6px 0;
+    font-size: 22px;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.pix-result-card .order-proto {
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 20px;
+    background: #f8fafc;
+    padding: 8px 16px;
+    border-radius: 20px;
+    display: inline-block;
+    border: 1px solid #e2e8f0;
+}
+
+.pix-result-card .order-proto strong {
+    color: #0284c7;
+}
+
+.pix-qr-container {
+    background: #f0fdf4;
+    border: 2px dashed #86efac;
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.pix-qr-container h3 {
+    margin: 0 0 14px 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: #166534;
+}
+
+.qr-wrapper {
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 14px;
+    display: inline-block;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid #dcfce7;
+}
+
+.copia-cola-box {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+}
+
+.copia-cola-box .label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #15803d;
+}
+
+.copia-cola-box input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 12px;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #1e293b;
+    font-family: monospace;
+    outline: none;
+}
+
+.btn-copy-pix {
+    background: #10b981;
+    color: #ffffff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+}
+
+.btn-copy-pix:hover {
+    background: #059669;
+    transform: translateY(-1px);
+}
+
+.payroll-approved-box {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    color: #1e3a8a;
+}
+
+.payroll-approved-box h3 {
+    margin: 8px 0 4px 0;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.payroll-approved-box .rem-limit {
+    display: block;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #0369a1;
+}
+
+.expedition-info-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    text-align: left;
+    font-size: 13px;
+    color: #334155;
+}
+
+.expedition-info-box p {
+    margin: 4px 0;
+}
+
+.btn-close-result {
+    width: 100%;
+    background: #0f172a;
+    color: #ffffff;
+    border: none;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-close-result:hover {
+    background: #1e293b;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .header-grid {
+        grid-template-columns: 1fr auto;
+    }
+    .drogasil-search-box {
+        grid-column: 1 / -1;
+    }
+    .hero-banners-grid {
+        grid-template-columns: 1fr;
+    }
+    .drogasil-products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+}

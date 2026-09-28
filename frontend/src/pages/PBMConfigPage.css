@@ -1,0 +1,151 @@
+.pbm-config-container {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.page-header {
+    margin-bottom: 32px;
+}
+
+.title-group {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.title-group h1 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.title-group p {
+    color: var(--text-secondary);
+    margin: 4px 0 0 0;
+}
+
+.config-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.config-card {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-header {
+    margin-bottom: 20px;
+}
+
+.card-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.card-title h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+}
+
+.status-badge.active {
+    background: rgba(74, 222, 128, 0.2);
+    color: var(--success);
+}
+
+.config-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.form-group input {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: white;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.form-check label {
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.card-footer {
+    margin-top: auto;
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.help-link {
+    font-size: 12px;
+    color: var(--primary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.alert-box {
+    display: flex;
+    gap: 16px;
+    padding: 20px;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid var(--primary);
+    border-radius: 12px;
+}
+
+.alert-content h4 {
+    margin: 0 0 4px 0;
+    color: var(--primary);
+}
+
+.alert-content p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.loading {
+    padding: 40px;
+    text-align: center;
+    color: var(--text-secondary);
+}

@@ -1,0 +1,96 @@
+.users-page {
+    padding: 24px;
+}
+
+.user-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.email-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+}
+
+.role-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(var(--primary-rgb), 0.1);
+    color: var(--primary);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-badge.active { background: rgba(var(--success-rgb), 0.2); color: var(--success); }
+.status-badge.inactive { background: rgba(var(--danger-rgb), 0.2); color: var(--danger); }
+
+.password-input {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 0 12px;
+}
+
+.password-input input {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 10px;
+    width: 100%;
+}
+
+.toggle-group {
+    display: flex;
+    gap: 8px;
+}
+
+.toggle-group button {
+    flex: 1;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.toggle-group button.active {
+    background: var(--success);
+    border-color: var(--success);
+}
+
+.toggle-group button.active.inactive {
+    background: var(--danger);
+    border-color: var(--danger);
+}
