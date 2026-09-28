@@ -65,7 +65,7 @@ $pullCmd = "cd $remotePath && git pull origin main"
 # }
 
 Write-Host "--- Atualizando Dependências e Build na VPS ---" -ForegroundColor Cyan
-$buildCmd = "cd $remotePath/backend && mkdir -p backups && npm install && node cleanup-indexes.js && node sync-db.js && node seed.js && pm2 start src/app.js --name varejo || pm2 restart varejo && cd ../frontend && npm install && npm run build"
+$buildCmd = "cd $remotePath/backend && mkdir -p backups && npm install && node sync-db.js && node seed.js && (pm2 restart varejo || pm2 start src/app.js --name varejo) && cd ../frontend && npm install && npm run build"
 & $plinkPath -pw $vpsPass "$vpsUser@$vpsIP" $buildCmd
 
 Write-Host "--- Deploy Concluído com Sucesso! ---" -ForegroundColor Green
