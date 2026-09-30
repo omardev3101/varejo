@@ -69,13 +69,7 @@ const FiscalReceipt = ({ data, onClose }) => {
 
                     <div className="doc-info">
                         <strong>DANFE NFC-e - Documento Auxiliar da Nota Fiscal de Consumidor Eletrônica</strong>
-                        {data.pbm_transaction_id && (
-                            <div className="fp-gov-header mt-1 p-1" style={{ border: '1px solid #000', borderRadius: '4px', textAlign: 'center', margin: '6px 0' }}>
-                                <strong>★ GOVERNO FEDERAL • MINISTÉRIO DA SAÚDE ★</strong>
-                                <div style={{ fontWeight: 'bold', fontSize: '11px' }}>PROGRAMA LOJA POPULAR DO BRASIL</div>
-                                <div style={{ fontSize: '10px' }}>SAÚDE NÃO TEM PREÇO</div>
-                            </div>
-                        )}
+
                         {data.fiscal_status === 'contingency' && (
                             <div className="contingency-alert mt-1" style={{ color: '#d97706', fontWeight: 'bold', fontSize: '11px' }}>
                                 EMITIDA EM CONTINGÊNCIA (OFFLINE) - PENDENTE DE TRANSMISSÃO

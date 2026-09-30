@@ -29,21 +29,6 @@ const POSPage = ({ onNavigate }) => {
     const [queuedSalesCount, setQueuedSalesCount] = useState(0);
     const [isSyncing, setIsSyncing] = useState(false);
 
-    // PBM States
-    const [pbmAuth, setPbmAuth] = useState(null);
-    const [isPbmModalOpen, setIsPbmModalOpen] = useState(false);
-    const [pbmType, setPbmType] = useState('promocional');
-    const [patientCpf, setPatientCpf] = useState('');
-    const [doctorCrm, setDoctorCrm] = useState('');
-    const [doctorUf, setDoctorUf] = useState('SP');
-    const [prescriptionDate, setPrescriptionDate] = useState(new Date().toISOString().split('T')[0]);
-    const [patientCns, setPatientCns] = useState('');
-    const [forceRealApi, setForceRealApi] = useState(true);
-    const [isPbmAuthorizing, setIsPbmAuthorizing] = useState(false);
-    const [pbmConfigs, setPbmConfigs] = useState([]);
-    const [pbmSearchResults, setPbmSearchResults] = useState(null);
-    const [isSearchingPbm, setIsSearchingPbm] = useState(false);
-
     // Digital Clock State
     const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -119,16 +104,7 @@ const POSPage = ({ onNavigate }) => {
                 setLoadingSession(false);
             }
         };
-        const fetchPbmConfigs = async () => {
-            try {
-                const response = await api.get('/pbm/configs');
-                setPbmConfigs(response.data);
-            } catch (err) {
-                console.error('Erro ao buscar configurações de PBM:', err);
-            }
-        };
         checkSession();
-        fetchPbmConfigs();
         searchRef.current?.focus();
     }, []);
 
@@ -201,8 +177,7 @@ const POSPage = ({ onNavigate }) => {
 
     const selectCustomer = (customer) => {
         setSelectedCustomer(customer);
-        if (customer.cpf) setPatientCpf(customer.cpf);
-        if (customer.cns) setPatientCns(customer.cns);
+        
         if (customer.cpf) setCpfNota(customer.cpf);
         setCustomerSearch('');
         setCustomerResults([]);
@@ -244,68 +219,8 @@ const POSPage = ({ onNavigate }) => {
         setCart(cart.filter(item => item.id !== id));
     };
 
-    const isFarmaciaPopularActive = true;
-    const isVidalinkActive = pbmConfigs.some(c => c.pbm_type === 'vidalink' && c.active);
-
     const subtotal = cart.reduce((acc, item) => acc + (parseFloat(item.unit_price || item.price) * item.quantity), 0);
-    const pbmDiscount = pbmAuth ? pbmAuth.discountAmount : 0;
-    const total = subtotal - discount - pbmDiscount;
-
-    const handlePbmAuthorize = async () => {
-        if (!patientCpf) return alert('Informe o CPF do paciente');
-        if (cart.length === 0) return alert('Carrinho vazio');
-
-        setIsPbmAuthorizing(true);
-        try {
-            const response = await api.post('/pbm/authorize', {
-                pbm_type: pbmType,
-                patient_cpf: patientCpf,
-                doctor_crm: doctorCrm,
-                doctor_uf: doctorUf,
-                prescription_date: prescriptionDate,
-                patient_cns: patientCns,
-                force_real: forceRealApi,
-                items: cart,
-                total_amount: subtotal
-            });
-
-            if (response.data.authorized) {
-                setPbmAuth(response.data);
-                setIsPbmModalOpen(false);
-                alert(`Autorização ${pbmType.toUpperCase()} realizada com sucesso!\nComprovante: ${response.data.authorizationCode || response.data.authorization_code}`);
-            } else {
-                alert(response.data.error || 'Erro na autorização');
-            }
-        } catch (error) {
-            alert('Erro ao comunicar com PBM: ' + (error.response?.data?.error || error.message));
-        } finally {
-            setIsPbmAuthorizing(false);
-        }
-    };
-
-    const handleSearchBestPbm = async () => {
-        if (!patientCpf) return alert('Informe o CPF do paciente para buscar os descontos.');
-        if (cart.length === 0) return alert('Carrinho vazio.');
-
-        setIsSearchingPbm(true);
-        try {
-            const response = await api.post('/pbm/search-best', {
-                patient_cpf: patientCpf,
-                doctor_crm: doctorCrm,
-                doctor_uf: doctorUf,
-                prescription_date: prescriptionDate,
-                patient_cns: patientCns,
-                items: cart,
-                total_amount: subtotal
-            });
-
-            setPbmSearchResults(response.data);
-        } catch (error) {
-            alert('Erro ao buscar descontos PBM: ' + (error.response?.data?.error || error.message));
-        } finally {
-            setIsSearchingPbm(false);
-        }
-    };
+    const total = subtotal - discount;
 
     const handleCheckout = async () => {
         if (cart.length === 0) return;
@@ -324,11 +239,10 @@ const POSPage = ({ onNavigate }) => {
                 authorized_by: item.authorized_by || null
             })),
             payment_method: paymentMethod,
-            discount_amount: discount + pbmDiscount,
+            discount_amount: discount,
             authorized_by: discount > 0 ? authModalConfig.meta?.authorized_by : null,
             customer_id: selectedCustomer?.id,
             cpf_nota: cpfNota || selectedCustomer?.cpf || null,
-            pbm_transaction_id: pbmAuth?.transactionId,
             client_name: selectedCustomer?.name || 'Cliente Geral',
             created_at: new Date().toISOString()
         };
@@ -342,7 +256,6 @@ const POSPage = ({ onNavigate }) => {
                 alert('Venda finalizada com sucesso!');
                 setCart([]);
                 setDiscount(0);
-                setPbmAuth(null);
                 setSelectedCustomer(null);
                 setCpfNota('');
                 searchRef.current?.focus();
@@ -371,7 +284,6 @@ const POSPage = ({ onNavigate }) => {
                 alert('Venda offline registrada com sucesso! Ela será enviada ao portal assim que a conexão retornar.');
                 setCart([]);
                 setDiscount(0);
-                setPbmAuth(null);
                 setSelectedCustomer(null);
                 setCpfNota('');
                 await updateQueuedCount();
@@ -401,8 +313,7 @@ const POSPage = ({ onNavigate }) => {
                         payment_method: sale.payment_method,
                         discount_amount: sale.discount_amount,
                         authorized_by: sale.authorized_by,
-                        customer_id: sale.customer_id,
-                        pbm_transaction_id: sale.pbm_transaction_id
+                        customer_id: sale.customer_id
                     });
                     await removeQueuedSaleLocal(sale.localId);
                 } catch (saleErr) {
@@ -451,8 +362,7 @@ const POSPage = ({ onNavigate }) => {
                                 payment_method: sale.payment_method,
                                 discount_amount: sale.discount_amount,
                                 authorized_by: sale.authorized_by,
-                                customer_id: sale.customer_id,
-                                pbm_transaction_id: sale.pbm_transaction_id
+                                customer_id: sale.customer_id
                             });
                             await removeQueuedSaleLocal(sale.localId);
                         } catch (err) {
@@ -767,87 +677,10 @@ const POSPage = ({ onNavigate }) => {
                     />
                 </div>
 
-                <div className="pbm-panel glass" style={{ marginTop: '16px', padding: '12px' }}>
-                    <h3 style={{ fontSize: '14px', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <ClipboardList size={16} /> Convênios e PBM
-                    </h3>
-                    <div style={{ display: 'grid', gridTemplateColumns: isFarmaciaPopularActive && isVidalinkActive ? '1fr 1fr' : '1fr', gap: '8px' }}>
-                        {isFarmaciaPopularActive && (
-                            <button className={`btn-small ${pbmAuth && pbmType === 'promocional' ? 'active' : ''}`} onClick={() => { setPbmType('promocional'); setIsPbmModalOpen(true); }}>
-                                F. Popular
-                            </button>
-                        )}
-                        {isVidalinkActive && (
-                            <button className={`btn-small ${pbmAuth && pbmType === 'vidalink' ? 'active' : ''}`} onClick={() => { setPbmType('vidalink'); setIsPbmModalOpen(true); }}>
-                                Vidalink
-                            </button>
-                        )}
-                        {!isFarmaciaPopularActive && !isVidalinkActive && (
-                            <span style={{ fontSize: '11px', color: 'var(--text-muted)', gridColumn: 'span 2', textAlign: 'center', padding: '4px 0' }}>
-                                Nenhum PBM ativo
-                            </span>
-                        )}
-                    </div>
-                    {pbmAuth && (
-                        <div className="pbm-status glass" style={{ marginTop: '8px', padding: '8px', background: 'rgba(74, 222, 128, 0.1)', border: '1px solid var(--success)', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <div style={{ fontSize: '12px' }}>
-                                <strong>AUT: {pbmAuth.authorizationCode}</strong>
-                                <div style={{ color: 'var(--success)' }}>Desconto FP: R$ {pbmAuth.discountAmount.toFixed(2)}</div>
-                            </div>
-                            <button className="btn-icon" onClick={() => setPbmAuth(null)}><X size={14} /></button>
-                        </div>
-                    )}
-
-                    {pbmAuth && pbmType === 'promocional' && (
-                        <div className="gov-fp-badge-container" style={{
-                            marginTop: '12px',
-                            padding: '10px 14px',
-                            background: 'linear-gradient(135deg, #007a33 0%, #002776 100%)',
-                            color: '#ffffff',
-                            borderRadius: '8px',
-                            boxShadow: '0 4px 12px rgba(0, 122, 51, 0.25)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '12px'
-                        }}>
-                            <div style={{
-                                width: '38px',
-                                height: '38px',
-                                borderRadius: '50%',
-                                background: '#ffdf00',
-                                color: '#002776',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                fontWeight: '900',
-                                fontSize: '16px'
-                            }}>
-                                FP
-                            </div>
-                            <div style={{ flex: 1 }}>
-                                <div style={{ fontSize: '10px', fontWeight: '800', letterSpacing: '0.05em', color: '#ffdf00' }}>
-                                    GOVERNO FEDERAL • MINISTÉRIO DA SAÚDE
-                                </div>
-                                <div style={{ fontSize: '13px', fontWeight: '700' }}>
-                                    LOJA POPULAR DO BRASIL
-                                </div>
-                                <div style={{ fontSize: '10px', opacity: 0.95 }}>
-                                    SAÚDE NÃO TEM PREÇO • AUT: {pbmAuth.authorizationCode}
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                </div>
-
                 <div className="summary-section">
                     <h2>Resumo da Venda</h2>
                     <div className="summary-row"><span>Subtotal</span><span>R$ {subtotal.toFixed(2)}</span></div>
-                    {pbmAuth && (
-                        <div className="summary-row text-success">
-                            <span>Subsídio {pbmType === 'promocional' ? 'FP' : pbmType.toUpperCase()}</span>
-                            <span>- R$ {pbmAuth.discountAmount.toFixed(2)}</span>
-                        </div>
-                    )}
+
                     <div className="summary-row">
                         <span>Desconto Manual {discount > 0 && <span style={{fontSize: '12px', color: 'var(--success)'}}>(Aplicado)</span>}</span>
                         <div style={{ display: 'flex', gap: '4px' }}>
@@ -897,145 +730,7 @@ const POSPage = ({ onNavigate }) => {
                 </button>
             </aside>
 
-            {isPbmModalOpen && (
-                <div className="modal-overlay">
-                    <div className="modal-content glass" style={{ maxWidth: '540px', maxHeight: '90vh', overflowY: 'auto' }}>
-                        <div className="modal-header">
-                            <h2>Autorização PBM / Convênio</h2>
-                            <button className="btn-icon" onClick={() => { setIsPbmModalOpen(false); setPbmSearchResults(null); }}><X size={20}/></button>
-                        </div>
-                        <div className="modal-body">
-                            <div className="form-group">
-                                <label>CPF do Paciente / Beneficiário</label>
-                                <div style={{ display: 'flex', gap: '8px' }}>
-                                    <input 
-                                        type="text" 
-                                        value={patientCpf} 
-                                        onChange={(e) => setPatientCpf(e.target.value)} 
-                                        placeholder="000.000.000-00"
-                                        style={{ flex: 1 }}
-                                    />
-                                    <button 
-                                        type="button" 
-                                        className="btn btn-secondary"
-                                        onClick={handleSearchBestPbm}
-                                        disabled={isSearchingPbm}
-                                        style={{ backgroundColor: '#2563eb', color: '#fff', border: 'none', padding: '0 14px', whiteSpace: 'nowrap' }}
-                                    >
-                                        {isSearchingPbm ? 'Buscando...' : '🔍 Buscar Melhor PBM'}
-                                    </button>
-                                </div>
-                            </div>
 
-                            {/* Multi-PBM Comparison Results */}
-                            {pbmSearchResults && (
-                                <div style={{ marginTop: '16px', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '12px' }}>
-                                    <h3 style={{ fontSize: '14px', color: '#60a5fa', marginBottom: '10px' }}>
-                                        📊 Comparativo de Descontos Encontrados para o CPF:
-                                    </h3>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                                        {pbmSearchResults.options?.map((opt) => (
-                                            <div 
-                                                key={opt.pbmType}
-                                                style={{
-                                                    padding: '12px',
-                                                    borderRadius: '8px',
-                                                    border: opt.isBestOption ? '2px solid #22c55e' : '1px solid #334155',
-                                                    background: opt.isBestOption ? 'rgba(34, 197, 94, 0.1)' : '#1e293b',
-                                                    display: 'flex',
-                                                    flexDirection: 'column',
-                                                    gap: '4px'
-                                                }}
-                                            >
-                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                    <strong style={{ fontSize: '14px', color: opt.isBestOption ? '#4ade80' : '#f8fafc' }}>
-                                                        {opt.providerName}
-                                                    </strong>
-                                                    {opt.isBestOption && (
-                                                        <span style={{ fontSize: '11px', background: '#22c55e', color: '#000', fontWeight: 'bold', padding: '2px 8px', borderRadius: '12px' }}>
-                                                            🏆 MELHOR DESCONTO
-                                                        </span>
-                                                    )}
-                                                </div>
-                                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', marginTop: '4px' }}>
-                                                    <span>Desconto: <strong style={{ color: '#4ade80' }}>R$ {opt.discountAmount.toFixed(2)}</strong></span>
-                                                    <span>Pagar: <strong>R$ {opt.patientCopay.toFixed(2)}</strong></span>
-                                                </div>
-                                                {opt.discountAmount > 0 && (
-                                                    <button
-                                                        type="button"
-                                                        className="btn btn-small"
-                                                        style={{ marginTop: '8px', backgroundColor: '#3b82f6', color: '#fff' }}
-                                                        onClick={() => {
-                                                            setPbmAuth(opt.raw);
-                                                            setIsPbmModalOpen(false);
-                                                            setPbmSearchResults(null);
-                                                            alert(`Aplicado desconto de R$ ${opt.discountAmount.toFixed(2)} via ${opt.providerName}`);
-                                                        }}
-                                                    >
-                                                        Aplicar Este Desconto
-                                                    </button>
-                                                )}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-
-                            <div className="form-group" style={{ marginTop: '16px' }}>
-                                <label>Ou Escolha o Provedor PBM Manualmente</label>
-                                <select 
-                                    value={pbmType} 
-                                    onChange={(e) => setPbmType(e.target.value)}
-                                    style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', background: '#1e293b', color: '#fff' }}
-                                >
-                                    <option value="promocional">Desconto Promocional (Governo Federal)</option>
-                                    <option value="portal_drogaria">Portal da Drogaria (Laboratórios EMS, Medley, Eurofarma, etc.)</option>
-                                    <option value="vidalink">Vidalink PBM</option>
-                                    <option value="epharma">e-Pharma</option>
-                                </select>
-                            </div>
-
-                            {pbmType === 'promocional' && (
-                                <>
-                                    <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '8px', marginTop: '12px' }}>
-                                        <div className="form-group">
-                                            <label>CRM do Médico</label>
-                                            <input type="text" value={doctorCrm} onChange={(e) => setDoctorCrm(e.target.value)} placeholder="123456"/>
-                                        </div>
-                                        <div className="form-group">
-                                            <label>UF CRM</label>
-                                            <input type="text" value={doctorUf} onChange={(e) => setDoctorUf(e.target.value.toUpperCase())} placeholder="SP" maxLength={2}/>
-                                        </div>
-                                    </div>
-                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '12px' }}>
-                                        <div className="form-group">
-                                            <label>Data da Receita</label>
-                                            <input type="date" value={prescriptionDate} onChange={(e) => setPrescriptionDate(e.target.value)}/>
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Cartão SUS (CNS) (Opcional)</label>
-                                            <input type="text" value={patientCns} onChange={(e) => setPatientCns(e.target.value)} placeholder="700000000000000"/>
-                                        </div>
-                                    </div>
-                                    <div className="form-group" style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                        <input type="checkbox" id="chkForceReal" checked={forceRealApi} onChange={(e) => setForceRealApi(e.target.checked)}/>
-                                        <label htmlFor="chkForceReal" style={{ fontSize: '13px', cursor: 'pointer', margin: 0 }}>
-                                            Usar Plataforma Real do Governo (MS REST API + Certificado A1)
-                                        </label>
-                                    </div>
-                                </>
-                            )}
-                        </div>
-                        <div className="modal-footer" style={{ marginTop: '20px' }}>
-                            <button className="btn btn-secondary" onClick={() => { setIsPbmModalOpen(false); setPbmSearchResults(null); }}>Cancelar</button>
-                            <button className="btn btn-primary" onClick={handlePbmAuthorize} disabled={isPbmAuthorizing}>
-                                {isPbmAuthorizing ? 'Autorizando...' : 'Solicitar Autorização Manual'}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
             {lastSale && (
                 <div className="modal-overlay">
                     <div className="modal-content glass" style={{ maxWidth: '400px', textAlign: 'center' }}>

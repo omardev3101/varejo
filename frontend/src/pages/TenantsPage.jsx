@@ -22,7 +22,7 @@ const TenantsPage = ({ onNavigate }) => {
 
     const [formData, setFormData] = useState({
         // Geral
-        name: '', cnpj: '', address: '', phone: '', status: 'active', 
+        name: '', cnpj: '', address: '', phone: '', email: '', logo_url: '', status: 'active', 
         default_min_stock: 5, shared_stock_tenant_id: '',
         // Fiscal
         state_registration: '', municipal_registration: '', fiscal_regime: 'Simples Nacional',
@@ -32,8 +32,6 @@ const TenantsPage = ({ onNavigate }) => {
         // SNGPC
         sngpc_active: false, sngpc_technical_manager: '', sngpc_crf: '', 
         sngpc_email: '', sngpc_password: '',
-        // PBM
-        pbm_active: false, pbm_provider: '', pbm_username: '', pbm_password: '',
         promocional_enabled: false,
         // Módulos
         allowed_modules: []
@@ -78,6 +76,8 @@ const TenantsPage = ({ onNavigate }) => {
                 cnpj: tenant.cnpj || '',
                 address: tenant.address || '',
                 phone: tenant.phone || '',
+                email: tenant.email || '',
+                logo_url: tenant.logo_url || '',
                 status: tenant.status || 'active',
                 default_min_stock: tenant.default_min_stock || 5,
                 shared_stock_tenant_id: tenant.shared_stock_tenant_id || '',
@@ -98,10 +98,7 @@ const TenantsPage = ({ onNavigate }) => {
                 sngpc_email: tenant.sngpc_email || '',
                 sngpc_password: tenant.sngpc_password || '',
 
-                pbm_active: tenant.pbm_active || false,
-                pbm_provider: tenant.pbm_provider || '',
-                pbm_username: tenant.pbm_username || '',
-                pbm_password: tenant.pbm_password || '',
+                
                 promocional_enabled: tenant.promocional_enabled || false,
                 
                 allowed_modules: tenant.allowed_modules || []
@@ -109,10 +106,10 @@ const TenantsPage = ({ onNavigate }) => {
         } else {
             setEditingTenant(null);
             setFormData({
-                name: '', cnpj: '', address: '', phone: '', status: 'active', default_min_stock: 5, shared_stock_tenant_id: '',
+                name: '', cnpj: '', address: '', phone: '', email: '', logo_url: '', status: 'active', default_min_stock: 5, shared_stock_tenant_id: '',
                 state_registration: '', municipal_registration: '', fiscal_regime: 'Simples Nacional', csc_token: '', csc_id: '', nfce_certificate_password: '', nfce_series: 1, nfce_next_number: 1, fiscal_environment: 'homologation',
                 sngpc_active: false, sngpc_technical_manager: '', sngpc_crf: '', sngpc_email: '', sngpc_password: '',
-                pbm_active: false, pbm_provider: '', pbm_username: '', pbm_password: '',
+                
                 promocional_enabled: false,
                 allowed_modules: []
             });
@@ -242,7 +239,7 @@ const TenantsPage = ({ onNavigate }) => {
                             <button className={`tab-btn ${activeTab === 'geral' ? 'active' : ''}`} type="button" onClick={() => setActiveTab('geral')}>Geral</button>
                             <button className={`tab-btn ${activeTab === 'fiscal' ? 'active' : ''}`} type="button" onClick={() => setActiveTab('fiscal')}>Fiscal e NFC-e</button>
                             <button className={`tab-btn ${activeTab === 'sngpc' ? 'active' : ''}`} type="button" onClick={() => setActiveTab('sngpc')}>SNGPC (Anvisa)</button>
-                            <button className={`tab-btn ${activeTab === 'pbm' ? 'active' : ''}`} type="button" onClick={() => setActiveTab('pbm')}>PBM / Convênios</button>
+                            
                             <button className={`tab-btn ${activeTab === 'acesso' ? 'active' : ''}`} type="button" onClick={() => setActiveTab('acesso')}>Módulos de Acesso</button>
                         </div>
 
@@ -266,6 +263,16 @@ const TenantsPage = ({ onNavigate }) => {
                                     <div className="form-group">
                                         <label>Endereço Completo</label>
                                         <input type="text" name="address" value={formData.address} onChange={handleChange} />
+                                    </div>
+                                    <div style={{ display: 'flex', gap: '16px' }}>
+                                        <div className="form-group" style={{ flex: 1 }}>
+                                            <label>E-mail Padrão</label>
+                                            <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="contato@empresa.com" />
+                                        </div>
+                                        <div className="form-group" style={{ flex: 1 }}>
+                                            <label>URL da Logomarca (Logo)</label>
+                                            <input type="text" name="logo_url" value={formData.logo_url} onChange={handleChange} placeholder="https://..." />
+                                        </div>
                                     </div>
                                     <div style={{ display: 'flex', gap: '16px' }}>
                                         <div className="form-group" style={{ flex: 1 }}>

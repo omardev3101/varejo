@@ -18,6 +18,8 @@ const Tenant = sequelize.define('Tenant', {
     },
     address: DataTypes.TEXT,
     phone: DataTypes.STRING,
+    email: DataTypes.STRING,
+    logo_url: DataTypes.STRING,
     status: {
         type: DataTypes.STRING,
         defaultValue: 'active'
