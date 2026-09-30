@@ -40,6 +40,9 @@ class StoreConfigController {
                     announcement_text: '🚚 Frete Grátis em compras acima de R$ 50,00 | 💊 Produtos com até 50% de Desconto',
                     free_shipping_min: 50.00,
                     opening_hours: 'Segunda a Sábado: 07:00 às 22:00 | Domingos: 08:00 às 18:00',
+                    primary_color: '#10b981',
+                    secondary_color: '#0f172a',
+                    system_name: 'REY DAS LOUÇAS ERP',
                     banners_json: DEFAULT_BANNERS
                 });
             }
@@ -70,6 +73,10 @@ class StoreConfigController {
                 free_shipping_min,
                 opening_hours,
                 logo_url,
+                primary_color,
+                secondary_color,
+                system_name,
+                support_email,
                 banners_json,
                 allowed_sections_json
             } = req.body;
@@ -82,6 +89,10 @@ class StoreConfigController {
             if (free_shipping_min !== undefined) updateData.free_shipping_min = free_shipping_min;
             if (opening_hours !== undefined) updateData.opening_hours = opening_hours;
             if (logo_url !== undefined) updateData.logo_url = logo_url;
+            if (primary_color !== undefined) updateData.primary_color = primary_color;
+            if (secondary_color !== undefined) updateData.secondary_color = secondary_color;
+            if (system_name !== undefined) updateData.system_name = system_name;
+            if (support_email !== undefined) updateData.support_email = support_email;
             if (banners_json !== undefined) updateData.banners_json = banners_json;
             if (allowed_sections_json !== undefined) updateData.allowed_sections_json = allowed_sections_json;
 

@@ -39,6 +39,22 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: true
         },
+        primary_color: {
+            type: DataTypes.STRING,
+            defaultValue: '#10b981'
+        },
+        secondary_color: {
+            type: DataTypes.STRING,
+            defaultValue: '#0f172a'
+        },
+        system_name: {
+            type: DataTypes.STRING,
+            defaultValue: 'REY DAS LOUÇAS ERP'
+        },
+        support_email: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
         banners_json: {
             type: DataTypes.TEXT,
             allowNull: true,

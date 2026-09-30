@@ -19,7 +19,11 @@ const StoreConfigPage = () => {
         announcement_text: '🚚 Frete Grátis em compras acima de R$ 50,00 | 💊 Produtos com até 50% de Desconto',
         free_shipping_min: '50.00',
         opening_hours: 'Segunda a Sábado: 07:00 às 22:00 | Domingos: 08:00 às 18:00',
-        logo_url: ''
+        logo_url: '',
+        primary_color: '#10b981',
+        secondary_color: '#0f172a',
+        system_name: 'REY DAS LOUÇAS ERP',
+        support_email: ''
     });
 
     // Allowed Sections State (array of section codes/names)
@@ -56,7 +60,11 @@ const StoreConfigPage = () => {
                 announcement_text: data.announcement_text || '🚚 Frete Grátis em compras acima de R$ 50,00 | 💊 Produtos com até 50% de Desconto',
                 free_shipping_min: data.free_shipping_min || '50.00',
                 opening_hours: data.opening_hours || 'Segunda a Sábado: 07:00 às 22:00 | Domingos: 08:00 às 18:00',
-                logo_url: data.logo_url || ''
+                logo_url: data.logo_url || '',
+                primary_color: data.primary_color || '#10b981',
+                secondary_color: data.secondary_color || '#0f172a',
+                system_name: data.system_name || 'REY DAS LOUÇAS ERP',
+                support_email: data.support_email || ''
             });
             setBanners(data.banners_json || []);
             setAllowedSections(data.allowed_sections_json || []);
@@ -215,6 +223,12 @@ const StoreConfigPage = () => {
                     onClick={() => setActiveTab('shipping')}
                 >
                     <Truck size={18} /> Frete & Faixa de Avisos
+                </button>
+                <button 
+                    className={`tab-btn ${activeTab === 'whitelabel' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('whitelabel')}
+                >
+                    <Sparkles size={18} /> Aparência (Whitelabel)
                 </button>
             </div>
 
@@ -384,6 +398,90 @@ const StoreConfigPage = () => {
                                     value={settings.opening_hours}
                                     onChange={(e) => setSettings({ ...settings, opening_hours: e.target.value })}
                                 />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Tab 4: Whitelabel Settings */}
+            {activeTab === 'whitelabel' && (
+                <div className="tab-content">
+                    <div className="content-card glass">
+                        <h3>Identidade Visual e Whitelabel</h3>
+                        <p style={{marginBottom: '20px', color: '#94a3b8'}}>Altere as cores, logomarca e o nome do sistema para customizá-lo para a sua empresa.</p>
+                        
+                        <div className="form-grid">
+                            <div className="form-group">
+                                <label>Nome do Sistema (Whitelabel)</label>
+                                <input 
+                                    type="text" 
+                                    value={settings.system_name}
+                                    onChange={(e) => setSettings({ ...settings, system_name: e.target.value })}
+                                    placeholder="Ex: Meu ERP"
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label>E-mail de Suporte / Contato</label>
+                                <input 
+                                    type="email" 
+                                    value={settings.support_email}
+                                    onChange={(e) => setSettings({ ...settings, support_email: e.target.value })}
+                                    placeholder="suporte@minhaempresa.com"
+                                />
+                            </div>
+
+                            <div className="form-group full-width">
+                                <label>URL da Logomarca do Sistema e Loja</label>
+                                <div style={{ display: 'flex', gap: '8px' }}>
+                                    <input 
+                                        type="text" 
+                                        value={settings.logo_url}
+                                        onChange={(e) => setSettings({ ...settings, logo_url: e.target.value })}
+                                        placeholder="https://sua-logo.com/logo.png"
+                                        style={{ flex: 1 }}
+                                    />
+                                </div>
+                                {settings.logo_url && (
+                                    <div style={{ marginTop: '10px', background: '#fff', padding: '10px', borderRadius: '8px', display: 'inline-block' }}>
+                                        <img src={settings.logo_url} alt="Logo Preview" style={{ maxHeight: '60px' }} onError={(e) => e.target.style.display='none'} />
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="form-group">
+                                <label>Cor Primária (Hexadecimal)</label>
+                                <div style={{display: 'flex', gap: '10px'}}>
+                                    <input 
+                                        type="color" 
+                                        value={settings.primary_color}
+                                        onChange={(e) => setSettings({ ...settings, primary_color: e.target.value })}
+                                        style={{width: '50px', padding: '2px'}}
+                                    />
+                                    <input 
+                                        type="text" 
+                                        value={settings.primary_color}
+                                        onChange={(e) => setSettings({ ...settings, primary_color: e.target.value })}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="form-group">
+                                <label>Cor Secundária (Menu Lateral/Topo)</label>
+                                <div style={{display: 'flex', gap: '10px'}}>
+                                    <input 
+                                        type="color" 
+                                        value={settings.secondary_color}
+                                        onChange={(e) => setSettings({ ...settings, secondary_color: e.target.value })}
+                                        style={{width: '50px', padding: '2px'}}
+                                    />
+                                    <input 
+                                        type="text" 
+                                        value={settings.secondary_color}
+                                        onChange={(e) => setSettings({ ...settings, secondary_color: e.target.value })}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
