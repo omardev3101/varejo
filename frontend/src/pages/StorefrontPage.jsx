@@ -577,30 +577,20 @@ const getProductImageUrl = (product) => {
                                 </button>
                             </div>
                         ))
-                    ) : (
                         <>
                             <div className="hero-banner-card card-emerald">
-                                <div className="card-badge"><Sparkles size={14} /> Clube do Sócio</div>
-                                <h3>Desconto Direto em Folha de Pagamento</h3>
-                                <p>Associados possuem limite de crédito pré-aprovado sem burocracia.</p>
-                                <button className="btn-banner" onClick={() => { setIsAuthModalOpen(true); setAuthTab('check'); }}>
-                                    Ativar Meu Limite &rarr;
-                                </button>
-                            </div>
-
-                            <div className="hero-banner-card card-rose">
-                                <div className="card-badge"><Heart size={14} /> Governo Federal</div>
-                                <h3>Desconto Promocional com Subsídio 100%</h3>
-                                <p>Produtos para Pressão, Diabetes e Asma sem custo.</p>
-                                <button className="btn-banner" onClick={() => setFilterFarmaciaPopular(true)}>
+                                <div className="card-badge"><Sparkles size={14} /> Ofertas Especiais</div>
+                                <h3>Descontos Exclusivos</h3>
+                                <p>Aproveite os melhores preços do mercado na nossa loja virtual.</p>
+                                <button className="btn-banner" onClick={() => { setIsCartOpen(true); }}>
                                     Ver Produtos &rarr;
                                 </button>
                             </div>
 
                             <div className="hero-banner-card card-blue">
-                                <div className="card-badge"><Truck size={14} /> Logística Direta</div>
-                                <h3>Entrega Rápida nas Garagens</h3>
-                                <p>Receba seus produtos diretamente na sua base operacional.</p>
+                                <div className="card-badge"><Truck size={14} /> Entrega Rápida</div>
+                                <h3>Receba no Conforto da sua Casa</h3>
+                                <p>Logística eficiente para você não perder tempo.</p>
                                 <button className="btn-banner" onClick={() => setIsCartOpen(true)}>
                                     Comprar Agora &rarr;
                                 </button>
