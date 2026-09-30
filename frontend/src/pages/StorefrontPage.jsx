@@ -18,28 +18,9 @@ const getSocioApiBase = () => {
 
 const API_BASE = getSocioApiBase();
 
-const GARAGES = [
-    'Garagem Sambaíba',
-    'Garagem Gato Preto',
-    'Garagem Via Sudeste',
-    'Garagem Express',
-    'Garagem Metra',
-    'Garagem KTT',
-    'Garagem Santa Brígida',
-    'Garagem Campo Belo',
-    'Garagem Mobibrasil',
-    'Outra Garagem / Base'
-];
 
-const CIRCULAR_CATEGORIES = [
-    { id: 'all', name: 'Todos', icon: Pill, color: '#3b82f6' },
-    { id: 'popular', name: 'Desconto Promocional', icon: Heart, color: '#f43f5e' },
-    { id: 'dor', name: 'Dor e Febre', icon: Thermometer, color: '#eab308' },
-    { id: 'gripe', name: 'Gripe e Alergia', icon: Activity, color: '#06b6d4' },
-    { id: 'pressao', name: 'Pressão Alta', icon: Stethoscope, color: '#ef4444' },
-    { id: 'higiene', name: 'Higiene e Cuidados', icon: Sparkles, color: '#10b981' },
-    { id: 'vitaminas', name: 'Vitaminas', icon: Zap, color: '#8b5cf6' }
-];
+
+
 
 const StorefrontPage = () => {
     // Socio Auth State
@@ -61,7 +42,7 @@ const StorefrontPage = () => {
     // Registration Form State
     const [regPhone, setRegPhone] = useState('');
     const [regEmail, setRegEmail] = useState('');
-    const [regGarage, setRegGarage] = useState(GARAGES[0]);
+    const [regGarage, setRegGarage] = useState('');
     const [regAddress, setRegAddress] = useState('');
     const [regNumber, setRegNumber] = useState('');
     const [regNeighborhood, setRegNeighborhood] = useState('');
@@ -81,9 +62,9 @@ const StorefrontPage = () => {
     const [categories, setCategories] = useState([]);
     const [search, setSearch] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('all');
-    const [selectedCircleCat, setSelectedCircleCat] = useState('all');
-    const [filterFarmaciaPopular, setFilterFarmaciaPopular] = useState(false);
-    const [selectedGarageHeader, setSelectedGarageHeader] = useState(GARAGES[0]);
+    
+    
+    
     const [loadingProducts, setLoadingProducts] = useState(true);
 
     // Cart & Dual Checkout State
@@ -93,7 +74,7 @@ const StorefrontPage = () => {
     const [deliveryType, setDeliveryType] = useState('address'); // 'address' or 'pickup'
     const [buyerName, setBuyerName] = useState('');
     const [buyerPhone, setBuyerPhone] = useState('');
-    const [buyerGarage, setBuyerGarage] = useState(GARAGES[0]);
+    const [buyerGarage, setBuyerGarage] = useState('Geral');
     const [buyerAddress, setBuyerAddress] = useState('');
     const [checkoutLoading, setCheckoutLoading] = useState(false);
     const [orderResult, setOrderResult] = useState(null);
@@ -163,7 +144,7 @@ const StorefrontPage = () => {
                 socioId: socio ? socio.id : null,
                 buyer_name: socio ? socio.name : (buyerName || 'Cliente Online'),
                 buyer_phone: socio ? socio.phone : buyerPhone,
-                garage: socio ? socio.garage : (buyerGarage || selectedGarageHeader),
+                garage: socio ? socio.garage : (buyerGarage || 'Geral'),
                 items: cart,
                 delivery_type: deliveryType,
                 delivery_address: socio ? socio.address : buyerAddress,
@@ -400,20 +381,9 @@ const StorefrontPage = () => {
         setTimeout(() => setCopiedPix(false), 2000);
     };
 
-const POPULAR_KEYWORDS = [
-    'losartana', 'enalapril', 'captopril', 'atenolol', 'propranolol', 'hidroclorotiazida', 'furosemida',
-    'metformina', 'gliclazida', 'glibenclamida', 'insulina', 'dapagliflozina',
-    'salbutamol', 'beclometasona', 'budesonida',
-    'dipirona', 'paracetamol', 'omeprazol', 'sinvastatina', 'amoxicilina', 'ibuprofeno'
-];
 
-const isPopularProduct = (p) => {
-    if (p.is_promocional) return true;
-    if (p.continuous_use) return true;
-    const nameLower = (p.name || '').toLowerCase();
-    const activeLower = (p.active_principle || '').toLowerCase();
-    return POPULAR_KEYWORDS.some(kw => nameLower.includes(kw) || activeLower.includes(kw));
-};
+
+
 
 const DEFAULT_CATEGORY_IMAGES = {
     shampoo: 'https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=400&auto=format&fit=crop&q=80',
@@ -467,36 +437,7 @@ const getProductImageUrl = (product) => {
     return DEFAULT_CATEGORY_IMAGES.produtos;
 };
 
-const matchesFilterCategory = (p, filterId) => {
-    if (!filterId || filterId === 'all') return true;
-    if (filterId === 'popular') return isPopularProduct(p);
 
-    const nameLower = (p.name || '').toLowerCase();
-    const activeLower = (p.active_principle || '').toLowerCase();
-    const catNameLower = (p.category?.name || p.category || '').toLowerCase();
-
-    if (filterId === 'dor') {
-        return catNameLower.includes('dor') || catNameLower.includes('febre') ||
-               ['dor', 'febre', 'dipirona', 'paracetamol', 'ibuprofeno', 'anador', 'dorflex', 'novalgina', 'tylenol', 'aspirina', 'anti-inflamatório'].some(kw => nameLower.includes(kw) || activeLower.includes(kw));
-    }
-    if (filterId === 'gripe') {
-        return catNameLower.includes('gripe') || catNameLower.includes('alergia') ||
-               ['gripe', 'alergia', 'xarope', 'cimegripe', 'resfenol', 'loratadina', 'desloratadina', 'allegra', 'histamin', 'descongestionante', 'vick'].some(kw => nameLower.includes(kw) || activeLower.includes(kw));
-    }
-    if (filterId === 'pressao') {
-        return catNameLower.includes('pressão') || catNameLower.includes('cardio') ||
-               ['pressão', 'losartana', 'enalapril', 'captopril', 'atenolol', 'propranolol', 'hidroclorotiazida', 'furosemida', 'anlodipino', 'hipertensão'].some(kw => nameLower.includes(kw) || activeLower.includes(kw));
-    }
-    if (filterId === 'higiene') {
-        return catNameLower.includes('higiene') || catNameLower.includes('cuidados') || catNameLower.includes('limpeza') ||
-               ['shampoo', 'xampu', 'condicionador', 'desodorante', 'sabonete', 'creme dental', 'listerine', 'álcool', 'toalhas', 'papel higiênico', 'higiene', 'cuidados', 'protex', 'dove', 'pantene', 'rexona', 'nivea', 'colgate', 'huggies', 'neve'].some(kw => nameLower.includes(kw) || activeLower.includes(kw));
-    }
-    if (filterId === 'vitaminas') {
-        return catNameLower.includes('vitamina') || catNameLower.includes('suplemento') ||
-               ['vitamina', 'cálcio', 'suplemento', 'multivitamínico', 'ômega', 'zinco', 'magnésio', 'lavitan', 'centrum'].some(kw => nameLower.includes(kw) || activeLower.includes(kw));
-    }
-    return true;
-};
 
     const cartTotal = cart.reduce((sum, item) => sum + (Number(item.price) * item.quantity), 0);
 
@@ -507,10 +448,8 @@ const matchesFilterCategory = (p, filterId) => {
                               (p.active_principle && p.active_principle.toLowerCase().includes(search.toLowerCase()));
         
         const matchesCategory = selectedCategory === 'all' || (p.category && (p.category.name === selectedCategory || p.category === selectedCategory));
-        const matchesFarmaciaPopular = !filterFarmaciaPopular || isPopularProduct(p);
-        const matchesCircle = matchesFilterCategory(p, selectedCircleCat);
 
-        return matchesSearch && matchesCategory && matchesFarmaciaPopular && matchesCircle;
+        return matchesSearch && matchesCategory;
     });
 
     return (
@@ -518,7 +457,7 @@ const matchesFilterCategory = (p, filterId) => {
             {/* Top Announcement Bar */}
             <div className="top-nav-bar">
                 <div className="container nav-banner-flex">
-                    <span>{storeConfig?.announcement_text || '⚡ Entrega Expressa para Garagens • Desconto Exclusivo em Folha para Sócios do Sindimotoristas • 100% Seguro'}</span>
+                    <span>{storeConfig?.announcement_text || '⚡ Entrega Rápida • Segurança Garantida'}</span>
                     <div className="banner-links">
                         <a href="/login" className="link-item">Painel ERP &rarr;</a>
                     </div>
@@ -532,7 +471,7 @@ const matchesFilterCategory = (p, filterId) => {
                     <div className="brand-box" onClick={() => window.location.reload()}>
                         <div className="brand-badge">FB</div>
                         <div className="brand-text">
-                            <h2>{storeConfig?.store_name ? storeConfig.store_name.split('-')[0] : 'VarejoPro'} <span className="highlight-tag">Drogaria</span></h2>
+                            <h2>{storeConfig?.store_name ? storeConfig.store_name.split('-')[0] : 'VarejoPro'}</h2>
                             <p>{storeConfig?.slogan || 'Sua Loja Digital do Sindimotoristas'}</p>
                         </div>
                     </div>
@@ -549,20 +488,7 @@ const matchesFilterCategory = (p, filterId) => {
                         {search && <X className="clear-search" size={18} onClick={() => setSearch('')} />}
                     </div>
 
-                    {/* Delivery Location Selector */}
-                    <div className="location-selector-box">
-                        <MapPin size={18} className="loc-icon" />
-                        <div className="loc-text">
-                            <span className="label">Entregar em:</span>
-                            <select 
-                                value={selectedGarageHeader} 
-                                onChange={e => setSelectedGarageHeader(e.target.value)}
-                                className="garage-select"
-                            >
-                                {GARAGES.map(g => <option key={g} value={g}>{g}</option>)}
-                            </select>
-                        </div>
-                    </div>
+                    
 
                     {/* Account & Cart Actions */}
                     <div className="header-actions">
@@ -606,8 +532,8 @@ const matchesFilterCategory = (p, filterId) => {
                         className={`ribbon-item ${selectedCategory === 'all' && selectedCircleCat === 'all' ? 'active' : ''}`}
                         onClick={() => {
                             setSelectedCategory('all');
-                            setSelectedCircleCat('all');
-                            setFilterFarmaciaPopular(false);
+                            
+                            
                         }}
                     >
                         <Pill size={14} /> Todos os Produtos
@@ -618,31 +544,14 @@ const matchesFilterCategory = (p, filterId) => {
                             className={`ribbon-item ${selectedCategory === catName ? 'active' : ''}`}
                             onClick={() => {
                                 setSelectedCategory(catName);
-                                setSelectedCircleCat('all');
-                                setFilterFarmaciaPopular(false);
+                                
+                                
                             }}
                         >
                             <Sparkles size={14} /> {catName}
                         </button>
                     ))}
-                    {CIRCULAR_CATEGORIES.filter(c => c.id !== 'all').map(cat => {
-                        const Icon = cat.icon;
-                        const isSelected = selectedCircleCat === cat.id;
-                        return (
-                            <button 
-                                key={cat.id}
-                                className={`ribbon-item ${cat.id === 'popular' ? 'highlight-popular' : ''} ${isSelected ? 'active' : ''}`}
-                                onClick={() => {
-                                    setSelectedCircleCat(cat.id);
-                                    setSelectedCategory('all');
-                                    if (cat.id === 'popular') setFilterFarmaciaPopular(true);
-                                    else setFilterFarmaciaPopular(false);
-                                }}
-                            >
-                                <Icon size={14} /> {cat.name}
-                            </button>
-                        );
-                    })}
+                    
                 </div>
             </nav>
 
@@ -701,41 +610,14 @@ const matchesFilterCategory = (p, filterId) => {
                 </div>
             </section>
 
-            {/* Circular Category Bubbles (Drogasil Style) */}
-            <section className="circular-categories-section">
-                <div className="container">
-                    <h3 className="section-title">Navegue por Sintomas e Cuidados</h3>
-                    <div className="circle-bubbles-flex">
-                        {CIRCULAR_CATEGORIES.map(cat => {
-                            const Icon = cat.icon;
-                            const isSelected = selectedCircleCat === cat.id;
-                            return (
-                                <div 
-                                    key={cat.id}
-                                    className={`bubble-item ${isSelected ? 'selected' : ''}`}
-                                    onClick={() => {
-                                        setSelectedCircleCat(cat.id);
-                                        if (cat.id === 'popular') setFilterFarmaciaPopular(true);
-                                        else setFilterFarmaciaPopular(false);
-                                    }}
-                                >
-                                    <div className="bubble-icon-box" style={{ borderColor: cat.color }}>
-                                        <Icon size={24} style={{ color: cat.color }} />
-                                    </div>
-                                    <span className="bubble-name">{cat.name}</span>
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
-            </section>
+            
 
             {/* Drogasil Product Catalog Grid */}
             <main className="drogasil-catalog-main">
                 <div className="container">
                     <div className="catalog-header-bar">
                         <h2>
-                            {filterFarmaciaPopular ? 'Produtos Desconto Promocional' : 'Catálogo de Produtos & Saúde'} 
+                            'Catálogo de Produtos' 
                             <span className="count-tag">({filteredProducts.length} itens encontrados)</span>
                         </h2>
                     </div>
@@ -753,11 +635,7 @@ const matchesFilterCategory = (p, filterId) => {
                                     <div className="drogasil-product-card" key={product.id}>
                                         {/* Product Badges */}
                                         <div className="card-top-badges">
-                                            {isPopularProduct(product) ? (
-                                                <span className="badge-popular"><Heart size={10} /> LOJA POPULAR</span>
-                                            ) : (
-                                                <span className="badge-socio"><Sparkles size={10} /> DESCONTO SÓCIO</span>
-                                            )}
+                                            
                                         </div>
 
                                         {/* Product Image */}
@@ -822,7 +700,7 @@ const matchesFilterCategory = (p, filterId) => {
                             <Search size={48} />
                             <h3>Nenhum produto encontrado para sua busca</h3>
                             <p>Tente buscar por termos genéricos como "Dipirona", "Paracetamol" ou limpe o filtro de categorias.</p>
-                            <button className="btn btn-primary mt-3" onClick={() => { setSearch(''); setSelectedCategory('all'); setSelectedCircleCat('all'); setFilterFarmaciaPopular(false); }}>
+                            <button className="btn btn-primary mt-3" onClick={() => { setSearch(''); setSelectedCategory('all');   }}>
                                 Limpar Todos os Filtros
                             </button>
                         </div>
@@ -930,12 +808,7 @@ const matchesFilterCategory = (p, filterId) => {
                                                 <label>Telefone / WhatsApp</label>
                                                 <input type="text" placeholder="(11) 99999-9999" value={buyerPhone} onChange={e => setBuyerPhone(e.target.value)} required />
                                             </div>
-                                            <div className="form-group mb-2">
-                                                <label>Garagem de Entrega</label>
-                                                <select value={buyerGarage} onChange={e => setBuyerGarage(e.target.value)}>
-                                                    {GARAGES.map(g => <option key={g} value={g}>{g}</option>)}
-                                                </select>
-                                            </div>
+                                            
                                             <div className="form-group">
                                                 <label>Endereço de Entrega</label>
                                                 <input type="text" placeholder="Rua, número, bairro..." value={buyerAddress} onChange={e => setBuyerAddress(e.target.value)} />
@@ -947,7 +820,7 @@ const matchesFilterCategory = (p, filterId) => {
                                     {socio && (
                                         <div className="socio-active-banner">
                                             <span className="socio-title">Sócio Logado: <strong>{socio.name}</strong></span>
-                                            <span className="socio-garage">Garagem: {socio.garage}</span>
+                                            
                                             <span className="socio-limit">Limite Disponível: <strong className="highlight">R$ {(socio.available_limit || 0).toFixed(2)}</strong></span>
                                         </div>
                                     )}
@@ -1029,7 +902,7 @@ const matchesFilterCategory = (p, filterId) => {
                         )}
 
                         <div className="expedition-info-box">
-                            <p>🚚 <strong>Garagem de Destino:</strong> {orderResult.garage}</p>
+                            
                             <p>📦 <strong>Status:</strong> {
                                 (orderResult.status === 'separating' || orderResult.status === 'packed' || orderResult.status === 'shipped' || orderResult.status === 'delivered') ? (
                                     <span style={{ color: '#10b981', fontWeight: '800' }}>✅ Pagamento Confirmado! Em Separação e Embalagem</span>
@@ -1103,12 +976,7 @@ const matchesFilterCategory = (p, filterId) => {
                                     <p className="form-desc">Sócio: <strong>{checkData?.name}</strong> ({checkData?.cpf})</p>
 
                                     <div className="form-grid-2">
-                                        <div className="form-group">
-                                            <label>Garagem de Pertencimento</label>
-                                            <select value={regGarage} onChange={e => setRegGarage(e.target.value)}>
-                                                {GARAGES.map(g => <option key={g} value={g}>{g}</option>)}
-                                            </select>
-                                        </div>
+                                        
                                         <div className="form-group">
                                             <label>Telefone / WhatsApp</label>
                                             <input type="text" placeholder="(11) 99999-9999" value={regPhone} onChange={e => setRegPhone(e.target.value)} required />
@@ -1201,8 +1069,8 @@ const matchesFilterCategory = (p, filterId) => {
             <footer className="drogasil-footer">
                 <div className="container footer-grid">
                     <div className="footer-col">
-                        <h4>VarejoPro Drogaria</h4>
-                        <p>A loja oficial dos sócios e colaboradores do transporte. Produtos com descontos exclusivos e entrega direta nas garagens.</p>
+                        <h4>VarejoPro Online</h4>
+                        <p>Sua loja oficial com descontos exclusivos e entrega rápida.</p>
                     </div>
 
                     <div className="footer-col">
@@ -1235,7 +1103,7 @@ const matchesFilterCategory = (p, filterId) => {
 
                 <div className="footer-bottom">
                     <div className="container bottom-flex">
-                        <span>© 2026 VarejoPro Drogaria. Todos os direitos reservados.</span>
+                        <span>© 2026 VarejoPro. Todos os direitos reservados.</span>
                         <span>Parceria Oficial Sindicato & Transporte</span>
                     </div>
                 </div>
