@@ -469,7 +469,18 @@ const getProductImageUrl = (product) => {
                 <div className="container header-grid">
                     {/* Brand Logo */}
                     <div className="brand-box" onClick={() => window.location.reload()}>
-                        <div className="brand-badge">FB</div>
+                        {storeConfig?.logo_url ? (
+                            <img 
+                                src={storeConfig.logo_url.startsWith('http') ? storeConfig.logo_url : `/varejo${storeConfig.logo_url}`} 
+                                alt="Logo" 
+                                className="storefront-logo-img" 
+                                style={{ height: '44px', maxWidth: '100px', objectFit: 'contain' }}
+                            />
+                        ) : (
+                            <div className="brand-badge">
+                                {storeConfig?.store_name ? storeConfig.store_name.substring(0, 2).toUpperCase() : 'VP'}
+                            </div>
+                        )}
                         <div className="brand-text">
                             <h2>{storeConfig?.store_name ? storeConfig.store_name.split('-')[0] : 'VarejoPro'}</h2>
                             <p>{storeConfig?.slogan || 'Sua Loja Digital do Sindimotoristas'}</p>
