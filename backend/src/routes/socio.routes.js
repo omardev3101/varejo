@@ -24,10 +24,13 @@ const socioAuthMiddleware = (req, res, next) => {
 };
 
 // Public Routes for Storefront & Socio Portal
+const validate = require('../middlewares/validate');
+const { registerSchema, loginSchema } = require('../schemas/socio.schema');
+
 router.post('/check', SocioController.checkSocio);
-router.post('/register', SocioController.completeProfileAndRegister);
+router.post('/register', validate(registerSchema), SocioController.completeProfileAndRegister);
 router.post('/verify-email', SocioController.verifyEmailAndActivate);
-router.post('/login', SocioController.login);
+router.post('/login', validate(loginSchema), SocioController.login);
 router.get('/products', SocioController.listPublicProducts);
 router.get('/storefront-config', SocioController.getPublicStoreConfig);
 router.post('/checkout-pix', SocioController.checkoutPix); // Public: Available to anyone (Socio or Non-Socio)

@@ -4,6 +4,15 @@
 !.env.example
 *.env
 
+# Scripts and sensitive deployment info
+deploy.ps1
+deploy.ps1*
+.deploy.ps1
+.deploy.ps1*
+deploy.sh
+*.pem
+*.ppk
+
 # Dependencies
 node_modules/
 backend/node_modules/
