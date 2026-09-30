@@ -529,7 +529,7 @@ const getProductImageUrl = (product) => {
             <nav className="category-ribbon-bar">
                 <div className="container ribbon-flex">
                     <button 
-                        className={`ribbon-item ${selectedCategory === 'all' && selectedCircleCat === 'all' ? 'active' : ''}`}
+                        className={`ribbon-item ${selectedCategory === 'all' ? 'active' : ''}`}
                         onClick={() => {
                             setSelectedCategory('all');
                             
