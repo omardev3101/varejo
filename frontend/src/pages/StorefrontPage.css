@@ -2,9 +2,15 @@
 
 .drogasil-storefront {
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     background-color: #f8fafc;
     color: #1e293b;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.drogasil-catalog-main {
+    flex: 1;
 }
 
 .container {
