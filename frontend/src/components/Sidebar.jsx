@@ -5,7 +5,7 @@ import { APP_VERSION, APP_BUILD_DATE } from '../config/version';
 import logo from '../assets/logo.jpg';
 import './Sidebar.css';
 
-const Sidebar = ({ onNavigate, currentPage }) => {
+const Sidebar = ({ onNavigate, currentPage, globalConfig }) => {
     const { logout, user } = useAuth();
     const [configOpen, setConfigOpen] = useState(false);
     const [inventoryOpen, setInventoryOpen] = useState(true);
@@ -15,7 +15,7 @@ const Sidebar = ({ onNavigate, currentPage }) => {
     return (
         <aside className="sidebar">
             <div className="sidebar-header">
-                <img src={logo} alt="VarejoPro" className="sidebar-logo-img" />
+                <img src={globalConfig?.logo_url || logo} alt={globalConfig?.system_name || "VarejoPro"} className="sidebar-logo-img" />
                 <div className="version-tag">
                     <span>{APP_VERSION} • {APP_BUILD_DATE}</span>
                 </div>

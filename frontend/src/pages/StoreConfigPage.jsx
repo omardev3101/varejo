@@ -9,6 +9,7 @@ const StoreConfigPage = () => {
     const [activeTab, setActiveTab] = useState('sections');
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    const [uploadingLogo, setUploadingLogo] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
 
     // General Store Settings
@@ -98,6 +99,32 @@ const StoreConfigPage = () => {
             alert('Erro ao salvar configurações: ' + (error.response?.data?.error || error.message));
         } finally {
             setSaving(false);
+        }
+    };
+
+    const handleLogoUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        setUploadingLogo(true);
+        try {
+            const response = await api.post('/storefront-config/upload-logo', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+            if (response.data.url) {
+                // Determine full URL if it's relative
+                const logoUrl = response.data.url.startsWith('http') ? response.data.url : window.location.origin + response.data.url;
+                setSettings(prev => ({ ...prev, logo_url: logoUrl }));
+                showToast('✅ Logomarca enviada com sucesso!');
+            }
+        } catch (error) {
+            console.error('Logo upload error:', error);
+            alert('Erro ao enviar a logomarca: ' + (error.response?.data?.error || error.message));
+        } finally {
+            setUploadingLogo(false);
         }
     };
 
@@ -442,6 +469,16 @@ const StoreConfigPage = () => {
                                         placeholder="https://sua-logo.com/logo.png"
                                         style={{ flex: 1 }}
                                     />
+                                    <label style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#0284c7', color: '#fff', padding: '0 15px', borderRadius: '6px', cursor: 'pointer', margin: 0 }}>
+                                        {uploadingLogo ? 'Enviando...' : <><ImageIcon size={16} /> Enviar Arquivo</>}
+                                        <input 
+                                            type="file" 
+                                            accept="image/*" 
+                                            style={{ display: 'none' }} 
+                                            onChange={handleLogoUpload}
+                                            disabled={uploadingLogo}
+                                        />
+                                    </label>
                                 </div>
                                 {settings.logo_url && (
                                     <div style={{ marginTop: '10px', background: '#fff', padding: '10px', borderRadius: '8px', display: 'inline-block' }}>

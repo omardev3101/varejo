@@ -1,4 +1,7 @@
 const { StoreConfig, Tenant } = require('../models');
+const path = require('path');
+const fs = require('fs');
+const { v4: uuidv4 } = require('uuid');
 
 const DEFAULT_BANNERS = [
     {
@@ -109,6 +112,28 @@ class StoreConfigController {
         } catch (error) {
             console.error('Update Store Settings Error:', error);
             return res.status(500).json({ error: error.message });
+        }
+    }
+
+    async uploadLogo(req, res) {
+        try {
+            if (!req.files || Object.keys(req.files).length === 0) {
+                return res.status(400).json({ error: 'Nenhum arquivo enviado.' });
+            }
+
+            const uploadedFile = req.files.file;
+            const ext = path.extname(uploadedFile.name);
+            const fileName = `logo_${uuidv4()}${ext}`;
+            const uploadPath = path.join(__dirname, '../../uploads/', fileName);
+
+            await uploadedFile.mv(uploadPath);
+
+            const fileUrl = `/api/uploads/${fileName}`;
+
+            return res.json({ success: true, url: fileUrl });
+        } catch (error) {
+            console.error('Upload Error:', error);
+            return res.status(500).json({ error: 'Erro ao fazer upload do arquivo' });
         }
     }
 }

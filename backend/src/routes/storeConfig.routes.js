@@ -8,4 +8,7 @@ router.get('/', StoreConfigController.getSettings);
 // PUT /api/storefront-config (Protected endpoint for updating settings and banners)
 router.put('/', StoreConfigController.updateSettings);
 
+// POST /api/storefront-config/upload-logo (Upload logo and favicon)
+router.post('/upload-logo', StoreConfigController.uploadLogo);
+
 module.exports = router;

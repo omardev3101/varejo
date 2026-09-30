@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import LoginPage from './pages/LoginPage';
 
@@ -32,11 +32,60 @@ import BackupPage from './pages/BackupPage';
 
 const AppContent = () => {
     const { signed, loading, user } = useAuth();
-    const [currentPage, setCurrentPage] = React.useState('dashboard');
+    const [currentPage, setCurrentPage] = useState('dashboard');
+    const [globalConfig, setGlobalConfig] = useState(null);
 
     const isStorefrontPath = window.location.pathname.includes('/loja') || window.location.pathname.includes('/store');
 
-    React.useEffect(() => {
+    // Fetch and apply whitelabel settings globally
+    useEffect(() => {
+        const fetchConfig = async () => {
+            try {
+                // Determine if we are in admin or public to fetch config (public doesn't need token for /api/storefront-config GET)
+                const res = await fetch(window.location.origin + '/varejo/api/storefront-config');
+                if (res.ok) {
+                    const data = await res.json();
+                    setGlobalConfig(data);
+
+                    // Inject CSS Variables
+                    const root = document.documentElement;
+                    if (data.primary_color) {
+                        root.style.setProperty('--primary', data.primary_color);
+                        root.style.setProperty('--emerald-500', data.primary_color); // Many tailwind classes use emerald
+                        root.style.setProperty('--emerald-600', data.primary_color);
+                    }
+                    if (data.secondary_color) {
+                        root.style.setProperty('--sidebar-bg', data.secondary_color);
+                        root.style.setProperty('--slate-800', data.secondary_color);
+                        root.style.setProperty('--slate-900', data.secondary_color);
+                    }
+
+                    // Update Favicon
+                    if (data.logo_url) {
+                        let link = document.querySelector("link[rel~='icon']");
+                        if (!link) {
+                            link = document.createElement('link');
+                            link.rel = 'icon';
+                            document.getElementsByTagName('head')[0].appendChild(link);
+                        }
+                        link.href = data.logo_url;
+                    }
+
+                    // Update Title
+                    if (data.system_name && !isStorefrontPath) {
+                        document.title = data.system_name;
+                    } else if (data.store_name && isStorefrontPath) {
+                        document.title = data.store_name;
+                    }
+                }
+            } catch (err) {
+                console.error("Failed to load whitelabel config", err);
+            }
+        };
+        fetchConfig();
+    }, [isStorefrontPath]);
+
+    useEffect(() => {
         if (signed && user) {
             if (user.role !== 'admin' && user.role !== 'superadmin') {
                 setCurrentPage('pos');
@@ -47,7 +96,7 @@ const AppContent = () => {
     }, [signed, user]);
 
     if (isStorefrontPath) {
-        return <StorefrontPage />;
+        return <StorefrontPage globalConfig={globalConfig} />;
     }
 
     if (loading) {
@@ -127,7 +176,7 @@ const AppContent = () => {
     };
 
     return (
-        <DashboardLayout onNavigate={setCurrentPage} currentPage={currentPage}>
+        <DashboardLayout onNavigate={setCurrentPage} currentPage={currentPage} globalConfig={globalConfig}>
             {renderPage()}
         </DashboardLayout>
     );
