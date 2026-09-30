@@ -115,8 +115,9 @@ const StoreConfigPage = () => {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             if (response.data.url) {
-                // Determine full URL if it's relative
-                const logoUrl = response.data.url.startsWith('http') ? response.data.url : window.location.origin + response.data.url;
+                // Use the correct base path for the URL (incorporating /varejo/api)
+                const base = api.defaults.baseURL.replace(/\/api\/?$/, '');
+                const logoUrl = response.data.url.startsWith('http') ? response.data.url : window.location.origin + base + response.data.url;
                 setSettings(prev => ({ ...prev, logo_url: logoUrl }));
                 showToast('✅ Logomarca enviada com sucesso!');
             }

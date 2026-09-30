@@ -45,6 +45,14 @@ const AppContent = () => {
                 const res = await fetch(window.location.origin + '/varejo/api/storefront-config');
                 if (res.ok) {
                     const data = await res.json();
+
+                    // Correct logo_url if it's a relative /api path (due to Nginx proxy)
+                    if (data.logo_url && data.logo_url.startsWith('/api/')) {
+                        const isDev = import.meta.env.MODE === 'development';
+                        const base = isDev ? (import.meta.env.VITE_API_URL || 'http://localhost:3010/api') : '/varejo/api';
+                        data.logo_url = base.replace(/\/api\/?$/, '') + data.logo_url;
+                    }
+
                     setGlobalConfig(data);
 
                     // Inject CSS Variables
@@ -115,7 +123,7 @@ const AppContent = () => {
     }
 
     if (!signed) {
-        return <LoginPage />;
+        return <LoginPage globalConfig={globalConfig} />;
     }
 
     const renderPage = () => {

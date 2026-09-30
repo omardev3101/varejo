@@ -6,7 +6,7 @@ import logo from '../assets/logo.jpg';
 import { saveUserLocal, verifyUserLocal } from '../services/offlineDb';
 import './LoginPage.css';
 
-const LoginPage = () => {
+const LoginPage = ({ globalConfig }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -45,7 +45,7 @@ const LoginPage = () => {
             
             <div className="login-card glass">
                 <div className="login-header">
-                    <img src={logo} alt="VarejoPro Logo" className="login-logo-img" />
+                    <img src={globalConfig?.logo_url || logo} alt={globalConfig?.system_name || "VarejoPro Logo"} className="login-logo-img" />
                     <p>Gestão comercial inteligente e modular</p>
                 </div>
 
