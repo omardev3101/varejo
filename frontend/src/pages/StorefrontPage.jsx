@@ -577,6 +577,7 @@ const getProductImageUrl = (product) => {
                                 </button>
                             </div>
                         ))
+                    ) : (
                         <>
                             <div className="hero-banner-card card-emerald">
                                 <div className="card-badge"><Sparkles size={14} /> Ofertas Especiais</div>
