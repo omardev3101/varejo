@@ -8,3 +8,10 @@ dist/
 .deploy.ps1*
 deploy.ps1*
 test.js
+fix_*.* .js
+*.md
+*.txt
+*.log
+*.err
+*.out
+*.txt

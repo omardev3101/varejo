@@ -23,6 +23,14 @@ strip_pbm_*.js
 config_pg.sh
 install_pg.sh
 install_sql.sh
+skill.md
+skill.*.md
+*.txt
+*.md
+*.log
+*.err
+*.out
+*.txt
 
 
 # Dependencies
