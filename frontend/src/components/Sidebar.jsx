@@ -249,7 +249,7 @@ const Sidebar = ({ onNavigate, currentPage }) => {
                                         onClick={() => onNavigate('store_config')}
                                     >
                                         <Globe size={16} />
-                                        <span>Gestão da Loja Virtual</span>
+                                        <span>Aparência, Whitelabel & Loja</span>
                                     </div>
                                     <div 
                                         className={`sub-nav-item ${currentPage === 'pix_config' ? 'active' : ''}`}
