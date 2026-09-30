@@ -36,7 +36,7 @@
   },
   "build": {
     "appId": "com.varejo.pos",
-    "productName": "VarejoPro POS",
+    "productName": "REY DAS LOUÇAS POS",
     "publish": {
       "provider": "generic",
       "url": "https://pessistemas.vps-kinghost.net/varejo/downloads/"

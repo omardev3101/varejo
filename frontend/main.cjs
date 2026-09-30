@@ -18,7 +18,7 @@ autoUpdater.on('update-downloaded', (info) => {
     dialog.showMessageBox(mainWindow, {
       type: 'info',
       title: 'Atualização Pronta',
-      message: `Uma nova versão (${info.version}) do FarmaBus POS foi baixada. Ela será aplicada quando o aplicativo for fechado ou você pode reiniciar agora.`,
+      message: `Uma nova versão (${info.version}) do REY DAS LOUÇAS POS foi baixada. Ela será aplicada quando o aplicativo for fechado ou você pode reiniciar agora.`,
       buttons: ['Reiniciar Agora', 'Instalar ao Sair']
     }).then((result) => {
       if (result.response === 0) {

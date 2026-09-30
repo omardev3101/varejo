@@ -164,7 +164,7 @@ class ExportController {
                         },
                         emit: {
                             CNPJ: tenant ? tenant.cnpj : '00000000000000',
-                            xNome: tenant ? tenant.name : 'Farmabus',
+                            xNome: tenant ? tenant.name : 'REY DAS LOUÇAS',
                             enderEmit: {
                                 xLgr: 'Rua',
                                 nro: '123',
