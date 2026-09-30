@@ -12,6 +12,18 @@ deploy.ps1*
 deploy.sh
 *.pem
 *.ppk
+test.js
+setpass.sql
+convert.js
+strip_pbm_all.js
+strip_pbm_all.js
+clean-env.js
+strip_pbm_*.js
+*.sql
+config_pg.sh
+install_pg.sh
+install_sql.sh
+
 
 # Dependencies
 node_modules/
