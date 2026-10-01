@@ -162,14 +162,7 @@ const Sidebar = ({ onNavigate, currentPage, globalConfig }) => {
                             <span>Fornecedores</span>
                         </div>
 
-                        <div 
-                            className={`nav-item ${currentPage === 'sngpc' ? 'active' : ''}`}
-                            onClick={() => onNavigate('sngpc')}
-                        >
-                            <Shield size={20} />
-                            <span>SNGPC</span>
-                        </div>
-
+                        
                         <div className="nav-divider">Administração</div>
 
                         <div 
@@ -212,13 +205,7 @@ const Sidebar = ({ onNavigate, currentPage, globalConfig }) => {
                                         <Tag size={16} />
                                         <span>Categorias</span>
                                     </div>
-                                    <div 
-                                        className={`sub-nav-item ${currentPage === 'pbm_config' ? 'active' : ''}`}
-                                        onClick={() => onNavigate('pbm_config')}
-                                    >
-                                        <Shield size={16} />
-                                        <span>PBM / Convênios</span>
-                                    </div>
+                                    
                                     <div className="sub-nav-item">
                                         <FileText size={16} />
                                         <span>Relatórios</span>
