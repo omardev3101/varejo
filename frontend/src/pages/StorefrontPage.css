@@ -1136,3 +1136,123 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* ============================================================== */
+/* Auth Wizard Modal (Acesso ou Cadastre-se) */
+/* ============================================================== */
+.auth-wizard-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px);
+}
+
+.auth-wizard-modal {
+    background: #fff;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+}
+
+.auth-wizard-modal .modal-header {
+    background: #111e3b;
+    color: #fff;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.auth-wizard-modal .modal-header h2 {
+    font-size: 1.25rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.auth-wizard-modal .modal-header .close-btn {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.auth-wizard-modal .modal-header .close-btn:hover {
+    opacity: 1;
+}
+
+.auth-wizard-modal .modal-body {
+    padding: 24px;
+    overflow-y: auto;
+}
+
+.auth-wizard-modal .form-desc {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.auth-wizard-modal .form-group {
+    margin-bottom: 16px;
+}
+
+.auth-wizard-modal .form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+.auth-wizard-modal .form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.2s;
+}
+
+.auth-wizard-modal .form-group input:focus {
+    border-color: #00b14f;
+}
+
+.auth-wizard-modal .form-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.auth-wizard-modal .btn-switch-tab {
+    background: none;
+    border: none;
+    color: #00b14f;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.auth-wizard-modal .btn-switch-tab:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .auth-wizard-modal .form-grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
