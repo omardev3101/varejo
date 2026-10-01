@@ -16,3 +16,4 @@ fix_*.* .js
 *.out
 *.txt
 strip_*.js
+seed*.*

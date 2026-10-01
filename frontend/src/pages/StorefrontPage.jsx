@@ -213,13 +213,16 @@ const StorefrontPage = () => {
             const res = await axios.post(`${API_BASE}/check`, { identifier });
             setCheckData(res.data);
 
-            if (res.data.has_password && res.data.email_verified) {
+            if (res.data.exists === false || res.data.is_new) {
+                setRegEmail('');
+                setRegPhone('');
+                setAuthTab('profile');
+            } else if (res.data.has_password) {
                 setAuthTab('login');
-                setAuthSuccess('Sócio localizado com cadastro ativo! Digite sua senha para entrar.');
+                setAuthSuccess('Conta localizada! Digite sua senha para entrar.');
             } else {
                 setRegEmail(res.data.email || '');
                 setRegPhone(res.data.phone || '');
-                setRegGarage(res.data.garage || GARAGES[0]);
                 setAuthTab('profile');
             }
         } catch (err) {
@@ -259,16 +262,15 @@ const StorefrontPage = () => {
             setAuthLoading(true);
             const res = await axios.post(`${API_BASE}/register`, {
                 identifier,
+                name: checkData?.name,
                 phone: regPhone,
                 email: regEmail,
-                garage: regGarage,
                 address: regAddress,
                 number: regNumber,
                 neighborhood: regNeighborhood,
                 city: regCity,
                 state: regState,
                 zip_code: regZip,
-                authorized_persons: authorizedPersons,
                 password: regPassword
             });
 
@@ -507,8 +509,8 @@ const getProductImageUrl = (product) => {
                             <div className="socio-user-card">
                                 <div className="user-avatar"><User size={16} /></div>
                                 <div className="user-details">
-                                    <span className="user-name">Olá, {socio.name.split(' ')[0]}</span>
-                                    <span className="user-credit">Limite: <strong className="val">R$ {(socio.available_limit || 0).toFixed(2)}</strong></span>
+                                    <span className="user-name">Olá, {socio.name ? socio.name.split(' ')[0] : 'Cliente'}</span>
+                                    <span className="user-credit">Minha Conta</span>
                                 </div>
                                 <button className="btn-exit" onClick={handleLogout} title="Sair">Sair</button>
                             </div>
@@ -517,7 +519,7 @@ const getProductImageUrl = (product) => {
                                 <User size={18} />
                                 <div>
                                     <strong className="block">Entre ou Cadastre-se</strong>
-                                    <span className="sub">Entrar com CPF/Matrícula</span>
+                                    <span className="sub">Meu Perfil</span>
                                 </div>
                             </button>
                         )}
@@ -772,28 +774,13 @@ const getProductImageUrl = (product) => {
                                         </div>
                                     </div>
 
-                                    {/* Payment Selector */}
+                                    {/* Payment Method */}
                                     <div className="config-group mb-3">
                                         <label className="group-label"><CreditCard size={16} /> Forma de Pagamento</label>
                                         <div className="radio-group-flex col">
-                                            <label className={`radio-card ${paymentMethod === 'pix' ? 'active' : ''}`}>
-                                                <input 
-                                                    type="radio" 
-                                                    name="pay_method" 
-                                                    checked={paymentMethod === 'pix'} 
-                                                    onChange={() => setPaymentMethod('pix')} 
-                                                />
-                                                <span>⚡ <strong>PIX Instantâneo</strong> (Livre para Todos - Sem Login)</span>
-                                            </label>
-
-                                            <label className={`radio-card ${paymentMethod === 'desconto_folha' ? 'active' : ''}`}>
-                                                <input 
-                                                    type="radio" 
-                                                    name="pay_method" 
-                                                    checked={paymentMethod === 'desconto_folha'} 
-                                                    onChange={() => setPaymentMethod('desconto_folha')} 
-                                                />
-                                                <span>💳 <strong>Desconto em Folha</strong> (Exclusivo para Sócios)</span>
+                                            <label className="radio-card active">
+                                                <input type="radio" checked readOnly />
+                                                <span>⚡ <strong>PIX Instantâneo</strong></span>
                                             </label>
                                         </div>
                                     </div>
@@ -821,9 +808,7 @@ const getProductImageUrl = (product) => {
                                     {/* Logged Socio Info Banner */}
                                     {socio && (
                                         <div className="socio-active-banner">
-                                            <span className="socio-title">Sócio Logado: <strong>{socio.name}</strong></span>
-                                            
-                                            <span className="socio-limit">Limite Disponível: <strong className="highlight">R$ {(socio.available_limit || 0).toFixed(2)}</strong></span>
+                                            <span className="socio-title">Cliente Logado: <strong>{socio.name}</strong></span>
                                         </div>
                                     )}
                                 </div>
@@ -837,32 +822,13 @@ const getProductImageUrl = (product) => {
                                     <strong className="summary-val">R$ {cartTotal.toFixed(2)}</strong>
                                 </div>
 
-                                {paymentMethod === 'pix' ? (
-                                    <button 
-                                        className="btn-checkout-drogasil" 
-                                        onClick={handleCheckoutPix}
-                                        disabled={checkoutLoading}
-                                    >
-                                        {checkoutLoading ? 'Gerando PIX...' : '⚡ FINALIZAR COM PIX'}
-                                    </button>
-                                ) : (
-                                    socio ? (
-                                        <button 
-                                            className="btn-checkout-drogasil blue" 
-                                            onClick={handleCheckoutPayroll}
-                                            disabled={checkoutLoading}
-                                        >
-                                            {checkoutLoading ? 'Autorizando...' : '💳 AUTORIZAR DESCONTO EM FOLHA'}
-                                        </button>
-                                    ) : (
-                                        <button 
-                                            className="btn-login-prompt"
-                                            onClick={() => { setIsCartOpen(false); setIsAuthModalOpen(true); setAuthTab('check'); }}
-                                        >
-                                            <Lock size={16} /> Entrar como Sócio para Desconto em Folha
-                                        </button>
-                                    )
-                                )}
+                                <button 
+                                    className="btn-checkout-drogasil" 
+                                    onClick={handleCheckoutPix}
+                                    disabled={checkoutLoading}
+                                >
+                                    {checkoutLoading ? 'Processando...' : '⚡ FINALIZAR COM PIX'}
+                                </button>
                             </div>
                         )}
                     </div>
@@ -926,7 +892,7 @@ const getProductImageUrl = (product) => {
                 <div className="auth-wizard-overlay" onClick={() => setIsAuthModalOpen(false)}>
                     <div className="auth-wizard-modal" onClick={e => e.stopPropagation()}>
                         <div className="modal-header">
-                            <h2><UserCheck size={22} /> Portal de Acesso do Sócio</h2>
+                            <h2><UserCheck size={22} /> Acesse ou Cadastre-se</h2>
                             <X size={20} className="close-btn" onClick={() => setIsAuthModalOpen(false)} />
                         </div>
 
@@ -936,19 +902,19 @@ const getProductImageUrl = (product) => {
 
                             {authTab === 'check' && (
                                 <form onSubmit={handleCheckSocio}>
-                                    <p className="form-desc">Informe seu CPF ou N° de Matrícula do Sindicato para prosseguir.</p>
+                                    <p className="form-desc">Informe seu CPF para acessar sua conta ou se cadastrar.</p>
                                     <div className="form-group mb-3">
-                                        <label>CPF ou Matrícula do Sócio</label>
+                                        <label>CPF</label>
                                         <input 
                                             type="text" 
-                                            placeholder="Digite seu CPF ou Matrícula" 
+                                            placeholder="Digite seu CPF" 
                                             value={identifier}
                                             onChange={e => setIdentifier(e.target.value)}
                                             required
                                         />
                                     </div>
                                     <button className="btn-drogasil-submit" type="submit" disabled={authLoading}>
-                                        {authLoading ? 'Verificando...' : 'Avançar'}
+                                        {authLoading ? 'Verificando...' : 'Continuar'}
                                     </button>
                                 </form>
                             )}
@@ -956,29 +922,32 @@ const getProductImageUrl = (product) => {
                             {authTab === 'login' && (
                                 <form onSubmit={handleLogin}>
                                     <div className="form-group mb-3">
-                                        <label>CPF ou Matrícula</label>
+                                        <label>CPF</label>
                                         <input type="text" value={identifier} onChange={e => setIdentifier(e.target.value)} required />
                                     </div>
                                     <div className="form-group mb-3">
-                                        <label>Sua Senha de Acesso</label>
-                                        <input type="password" placeholder="Sua senha secreta" value={password} onChange={e => setPassword(e.target.value)} required />
+                                        <label>Senha</label>
+                                        <input type="password" placeholder="Sua senha" value={password} onChange={e => setPassword(e.target.value)} required />
                                     </div>
                                     <button className="btn-drogasil-submit" type="submit" disabled={authLoading}>
-                                        {authLoading ? 'Entrando...' : 'Entrar no Portal do Sócio'}
+                                        {authLoading ? 'Entrando...' : 'Entrar'}
                                     </button>
                                     <button type="button" className="btn-switch-tab" onClick={() => setAuthTab('check')}>
-                                        Primeiro Acesso ou Ativar Cadastro
+                                        Voltar
                                     </button>
                                 </form>
                             )}
 
                             {authTab === 'profile' && (
                                 <form onSubmit={handleRegisterProfile}>
-                                    <h3>Primeiro Acesso: Cadastre sua Senha</h3>
-                                    <p className="form-desc">Sócio: <strong>{checkData?.name}</strong> ({checkData?.cpf})</p>
+                                    <h3>Crie sua conta</h3>
+                                    <p className="form-desc">Complete seus dados (CPF: <strong>{identifier}</strong>)</p>
 
                                     <div className="form-grid-2">
-                                        
+                                        <div className="form-group">
+                                            <label>Nome Completo</label>
+                                            <input type="text" placeholder="Seu nome" value={checkData?.name || ''} onChange={e => setCheckData({...checkData, name: e.target.value})} required />
+                                        </div>
                                         <div className="form-group">
                                             <label>Telefone / WhatsApp</label>
                                             <input type="text" placeholder="(11) 99999-9999" value={regPhone} onChange={e => setRegPhone(e.target.value)} required />
@@ -986,30 +955,13 @@ const getProductImageUrl = (product) => {
                                     </div>
 
                                     <div className="form-group mb-2">
-                                        <label>E-mail (Receberá o código de ativação)</label>
+                                        <label>E-mail (usado para recuperar a senha)</label>
                                         <input type="email" placeholder="seuemail@exemplo.com" value={regEmail} onChange={e => setRegEmail(e.target.value)} required />
                                     </div>
 
                                     <div className="form-group mb-2">
-                                        <label>Endereço Residencial</label>
-                                        <input type="text" placeholder="Rua, número, complemento..." value={regAddress} onChange={e => setRegAddress(e.target.value)} />
-                                    </div>
-
-                                    {/* Dependents list */}
-                                    <div className="dependents-box">
-                                        <label><Users size={14} /> Pessoas Autorizadas a Retirar Produtos</label>
-                                        <div className="add-dep-flex mt-1">
-                                            <input type="text" placeholder="Nome do dependente" value={newPersonName} onChange={e => setNewPersonName(e.target.value)} />
-                                            <input type="text" placeholder="Parentesco" value={newPersonRelation} onChange={e => setNewPersonRelation(e.target.value)} />
-                                            <button type="button" onClick={handleAddPerson}>+ Add</button>
-                                        </div>
-                                        <div className="dep-tags-flex mt-2">
-                                            {authorizedPersons.map((p, idx) => (
-                                                <span key={idx} className="dep-tag">
-                                                    {p.name} ({p.relation}) <X size={12} onClick={() => handleRemovePerson(idx)} />
-                                                </span>
-                                            ))}
-                                        </div>
+                                        <label>Endereço Completo</label>
+                                        <input type="text" placeholder="Rua, número, bairro..." value={regAddress} onChange={e => setRegAddress(e.target.value)} />
                                     </div>
 
                                     <div className="form-grid-2 mb-3">
@@ -1024,7 +976,7 @@ const getProductImageUrl = (product) => {
                                     </div>
 
                                     <button className="btn-drogasil-submit" type="submit" disabled={authLoading}>
-                                        {authLoading ? 'Salvando...' : 'Salvar e Enviar Código de Ativação'}
+                                        {authLoading ? 'Salvando...' : 'Criar Conta'}
                                     </button>
                                 </form>
                             )}

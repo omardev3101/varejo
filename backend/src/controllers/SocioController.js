@@ -103,8 +103,9 @@ class SocioController {
             });
 
             if (!customer) {
-                return res.status(404).json({ 
-                    error: 'Sócio não encontrado na base de associados do Sindicato/Loja. Por favor, entre em contato com o atendimento.' 
+                return res.json({
+                    exists: false,
+                    is_new: true
                 });
             }
 
@@ -131,6 +132,7 @@ class SocioController {
         try {
             const { 
                 identifier, 
+                name,
                 phone, 
                 email, 
                 address, 
@@ -145,11 +147,11 @@ class SocioController {
             } = req.body;
 
             if (!identifier || !email || !password) {
-                return res.status(400).json({ error: 'CPF/Matrícula, E-mail e Senha são obrigatórios' });
+                return res.status(400).json({ error: 'CPF, E-mail e Senha são obrigatórios' });
             }
 
             const cleanId = identifier.replace(/\D/g, '');
-            const customer = await Customer.findOne({
+            let customer = await Customer.findOne({
                 where: {
                     [Op.or]: [
                         { cpf: identifier },
@@ -160,7 +162,14 @@ class SocioController {
             });
 
             if (!customer) {
-                return res.status(404).json({ error: 'Sócio não encontrado no sistema' });
+                customer = await Customer.create({
+                    tenant_id: 1,
+                    name: name || 'Novo Cliente',
+                    cpf: cleanId,
+                    email: email,
+                    phone: phone,
+                    status: 'ativo'
+                });
             }
 
             const hashedPassword = await bcrypt.hash(password, 10);
