@@ -68,9 +68,9 @@ const DashboardPage = () => {
                         </div>
                     </div>
                     <div className="card-body">
-                        <h3>Dívida em Folha</h3>
+                        <h3>Dívida (Crediário)</h3>
                         <strong className="debt-text">R$ {parseFloat(stats?.totalDebt || 0).toFixed(2)}</strong>
-                        <span>Total a receber dos convênios</span>
+                        <span>Total a receber de clientes</span>
                     </div>
                 </div>
 
@@ -130,9 +130,10 @@ const DashboardPage = () => {
                         {(stats?.salesByMethod || []).map((item, index) => {
                             const methodLabels = {
                                 'cash': 'Dinheiro',
+                                'credit': 'Cartão de Crédito',
                                 'credit_card': 'Cartão de Crédito',
+                                'debit': 'Cartão de Débito',
                                 'debit_card': 'Cartão de Débito',
-                                'payroll': 'Folha de Pagamento',
                                 'pix': 'PIX'
                             };
                             return (

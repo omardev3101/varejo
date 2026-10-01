@@ -224,11 +224,6 @@ const POSPage = ({ onNavigate }) => {
 
     const handleCheckout = async () => {
         if (cart.length === 0) return;
-        
-        if (paymentMethod === 'payroll' && !selectedCustomer) {
-            alert('Selecione um cliente para venda em folha!');
-            return;
-        }
 
         setIsProcessing(true);
         const saleData = {
@@ -704,7 +699,7 @@ const POSPage = ({ onNavigate }) => {
                     <h3>Forma de Pagamento</h3>
                     <div className="payment-grid">
                         <button className={`pay-btn ${paymentMethod === 'cash' ? 'active' : ''}`} onClick={() => setPaymentMethod('cash')}><Banknote size={20} /> Dinheiro</button>
-                        <button className={`pay-btn ${paymentMethod === 'payroll' ? 'active' : ''}`} onClick={() => setPaymentMethod('payroll')}><FileText size={20} /> Folha</button>
+                        <button className={`pay-btn ${paymentMethod === 'debit' ? 'active' : ''}`} onClick={() => setPaymentMethod('debit')}><CreditCard size={20} /> Débito</button>
                         <button className={`pay-btn ${paymentMethod === 'pix' ? 'active' : ''}`} onClick={() => setPaymentMethod('pix')}><QrCode size={20} /> PIX</button>
                         <button className={`pay-btn ${paymentMethod === 'credit' ? 'active' : ''}`} onClick={() => setPaymentMethod('credit')}><CreditCard size={20} /> Crédito</button>
                     </div>

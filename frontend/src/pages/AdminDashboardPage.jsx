@@ -98,7 +98,7 @@ const AdminDashboardPage = () => {
 
                 <div className="grid-item glass">
                     <div className="item-header">
-                        <h3>Inadimplência / Folha por Unidade</h3>
+                        <h3>Inadimplência por Unidade</h3>
                         <AlertTriangle size={18} />
                     </div>
                     <div className="store-list">
