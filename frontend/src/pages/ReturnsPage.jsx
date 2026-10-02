@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import api from '../services/api';
+import { Truck, Plus, Trash2, Search, RotateCcw, FileText, User, X, Printer, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import ManagerAuthModal from '../components/ManagerAuthModal';
 
 const ReturnsPage = () => {
