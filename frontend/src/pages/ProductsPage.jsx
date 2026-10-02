@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
-import { Package, Plus, FileUp, Search, MoreVertical, Edit, Trash2, Image, Tag } from 'lucide-react';
+import { Package, Plus, FileUp, Search, MoreVertical, Edit, Trash2, Image, Tag, Sparkles } from 'lucide-react';
 import './ProductsPage.css';
 
 import ProductModal from '../components/ProductModal';
@@ -17,6 +17,7 @@ const ProductsPage = () => {
 
     const [isWebSearchOpen, setIsWebSearchOpen] = useState(false);
     const [searchProduct, setSearchProduct] = useState(null);
+    const [autoFetching, setAutoFetching] = useState(false);
 
     const handleSelectWebImage = async (url) => {
         if (!searchProduct) return;
@@ -42,6 +43,47 @@ const ProductsPage = () => {
     useEffect(() => {
         fetchProducts();
     }, []);
+
+    // Função para buscar imagens automaticamente em lote para produtos sem foto
+    const handleAutoFetchMissingImages = async () => {
+        const missingImageProducts = products.filter(p => !p.image_url);
+        if (missingImageProducts.length === 0) {
+            alert('Todos os produtos já possuem imagens cadastradas!');
+            return;
+        }
+
+        if (!window.confirm(`Deseja buscar fotos automaticamente na web para os ${missingImageProducts.length} produtos sem imagem?`)) {
+            return;
+        }
+
+        setAutoFetching(true);
+        let updatedCount = 0;
+
+        try {
+            for (const product of missingImageProducts) {
+                try {
+                    const query = product.ean || product.name;
+                    const res = await api.get('/products/search-image', {
+                        params: { q: query, ean: product.ean }
+                    });
+
+                    if (res.data && res.data.length > 0) {
+                        const bestImageUrl = res.data[0].url;
+                        await api.put(`/products/${product.id}`, { image_url: bestImageUrl });
+                        updatedCount++;
+                    }
+                } catch (err) {
+                    console.error(`Falha ao buscar imagem para o produto ${product.name}:`, err);
+                }
+            }
+            fetchProducts();
+            alert(`Processo concluído! ${updatedCount} imagens foram preenchidas automaticamente.`);
+        } catch (error) {
+            alert('Erro ao processar busca automática de imagens.');
+        } finally {
+            setAutoFetching(false);
+        }
+    };
 
     const handleXMLImport = async (e) => {
         const file = e.target.files[0];
@@ -94,6 +136,15 @@ const ProductsPage = () => {
                     <h1>Gestão de Produtos</h1>
                 </div>
                 <div className="header-actions">
+                    <button 
+                        className="btn btn-secondary" 
+                        onClick={handleAutoFetchMissingImages}
+                        disabled={autoFetching}
+                        style={{ background: '#0284c7', color: '#fff', border: 'none' }}
+                    >
+                        <Sparkles size={18} />
+                        {autoFetching ? 'Buscando Fotos...' : 'Buscar Fotos Faltantes'}
+                    </button>
                     <label className="btn btn-secondary">
                         <FileUp size={18} />
                         Importar XML
