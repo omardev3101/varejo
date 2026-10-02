@@ -14,10 +14,22 @@ const WebImageSearchModal = ({ isOpen, onClose, onSelectImage, initialQuery = ''
         if (!searchStr && !eanStr) return;
         setLoading(true);
         try {
-            // Adiciona termos úteis para encontrar embalagens de produtos se a query for curta
-            const refinedQuery = searchStr && !searchStr.toLowerCase().includes('produto') 
-                ? `${searchStr} embalagem` 
-                : searchStr;
+            // Limpeza inteligente do termo de busca para evitar ruídos
+            let cleanQuery = searchStr
+                .toLowerCase()
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, "") // Remove acentos
+                .replace(/\b(kit|pacote|caixa|pct|unidade|pecas|pçs)\b/g, '') // Remove palavras comerciais
+                .replace(/\b\d+\s*(unid|peças|pçs|ml|g|kg|l|m)\b/g, '') // Remove medidas/quantidades
+                .replace(/[0-9]/g, '') // Remove números isolados
+                .replace(/[^a-zA-Z\s]/g, '') // Mantém apenas letras e espaços
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            // Se a limpeza deixar a string muito curta, recorre ao termo original resumido
+            const searchTermFinal = cleanQuery.length >= 3 ? cleanQuery : searchStr;
+
+            // Define termos de contexto comercial seguros para produtos de utilidades/casa/mercado
+            const refinedQuery = `${searchTermFinal} embalagem foto produto`;
 
             const response = await api.get('/products/search-image', {
                 params: { q: refinedQuery, ean: eanStr }
