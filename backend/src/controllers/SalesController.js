@@ -93,17 +93,19 @@ class SalesController {
                 payment_method,
                 status: 'completed',
                 authorized_by: authorized_by || null,
-                fiscal_status: 'emitted',
+                fiscal_status: (tenantObj && tenantObj.nfce_certificate_base64) ? 'emitted' : 'draft',
                 cpf_nota: cleanCpfNota || null
             }, { transaction: t });
 
-            const validFiscalKey = generateValidNFCeKey(tenantCnpj, sale.id, false);
-            const validProtocol = '13526' + String(Math.floor(1000000000 + Math.random() * 9000000000));
+            if (tenantObj && tenantObj.nfce_certificate_base64) {
+                const validFiscalKey = generateValidNFCeKey(tenantCnpj, sale.id, false);
+                const validProtocol = '13526' + String(Math.floor(1000000000 + Math.random() * 9000000000));
 
-            await sale.update({
-                fiscal_key: validFiscalKey,
-                fiscal_protocol: validProtocol
-            }, { transaction: t });
+                await sale.update({
+                    fiscal_key: validFiscalKey,
+                    fiscal_protocol: validProtocol
+                }, { transaction: t });
+            }
 
             if (payment_method === 'payroll') {
                 const available = parseFloat(customer.credit_limit) - parseFloat(customer.current_debt);
