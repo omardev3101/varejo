@@ -93,11 +93,11 @@ class SalesController {
                 payment_method,
                 status: 'completed',
                 authorized_by: authorized_by || null,
-                fiscal_status: (tenantObj && tenantObj.nfce_certificate_base64) ? 'emitted' : 'draft',
+                fiscal_status: (tenantObj && tenantObj.nfce_certificate_base64 && tenantObj.nfce_certificate_base64.length > 50) ? 'emitted' : 'draft',
                 cpf_nota: cleanCpfNota || null
             }, { transaction: t });
 
-            if (tenantObj && tenantObj.nfce_certificate_base64) {
+            if (tenantObj && tenantObj.nfce_certificate_base64 && tenantObj.nfce_certificate_base64.length > 50) {
                 const validFiscalKey = generateValidNFCeKey(tenantCnpj, sale.id, false);
                 const validProtocol = '13526' + String(Math.floor(1000000000 + Math.random() * 9000000000));
 
