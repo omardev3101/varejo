@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Search, X, Check, Image as ImageIcon, Loader, ExternalLink, Save, Link } from 'lucide-react';
 import api from '../services/api';
 import './WebImageSearchModal.css';
@@ -10,33 +10,43 @@ const WebImageSearchModal = ({ isOpen, onClose, onSelectImage, initialQuery = ''
     const [loading, setLoading] = useState(false);
     const [selectedUrl, setSelectedUrl] = useState('');
 
-    const handleSearch = async (searchStr = query, eanStr = initialEan) => {
+    const handleSearch = useCallback(async (searchStr = query, eanStr = initialEan) => {
         if (!searchStr && !eanStr) return;
         setLoading(true);
         try {
+            // Adiciona termos úteis para encontrar embalagens de produtos se a query for curta
+            const refinedQuery = searchStr && !searchStr.toLowerCase().includes('produto') 
+                ? `${searchStr} embalagem` 
+                : searchStr;
+
             const response = await api.get('/products/search-image', {
-                params: { q: searchStr, ean: eanStr }
+                params: { q: refinedQuery, ean: eanStr }
             });
             setResults(response.data || []);
         } catch (error) {
-            console.error('Error fetching web images:', error);
+            console.error('Erro ao buscar imagens na web:', error);
+            setResults([]);
         } finally {
             setLoading(false);
         }
-    };
+    }, [query, initialEan]);
 
     useEffect(() => {
         if (isOpen) {
             setQuery(initialQuery);
             setPastedUrl('');
             setSelectedUrl('');
-            handleSearch(initialQuery, initialEan);
+            setResults([]);
+            if (initialQuery || initialEan) {
+                handleSearch(initialQuery, initialEan);
+            }
         }
-    }, [isOpen, initialQuery, initialEan]);
+    }, [isOpen, initialQuery, initialEan, handleSearch]);
 
     if (!isOpen) return null;
 
     const handleConfirm = (url) => {
+        if (!url) return;
         onSelectImage(url);
         onClose();
     };
@@ -48,28 +58,28 @@ const WebImageSearchModal = ({ isOpen, onClose, onSelectImage, initialQuery = ''
                     <div className="header-title-flex">
                         <ImageIcon size={22} className="header-icon" />
                         <div>
-                            <h3>Buscar Foto no Google Imagens</h3>
-                            <span className="subtitle">Pesquise, selecione ou cole o link direto da imagem</span>
+                            <h3>Buscar Foto do Produto</h3>
+                            <span className="subtitle">Pesquise automaticamente, selecione dos resultados ou cole o link direto</span>
                         </div>
                     </div>
                     <button className="close-btn" onClick={onClose}><X size={20} /></button>
                 </header>
 
                 <div className="web-search-body">
-                    {/* 1. Search Bar */}
+                    {/* 1. Barra de Pesquisa por Termo/EAN */}
                     <form className="search-bar-form" onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
                         <div className="input-with-icon">
                             <Search size={18} className="search-icon" />
                             <input 
                                 type="text" 
-                                placeholder="Digite o nome do produto ou produto para pesquisar..."
+                                placeholder="Nome do produto, marca ou EAN..."
                                 value={query}
                                 onChange={(e) => setQuery(e.target.value)}
                             />
                         </div>
                         <button type="submit" className="btn btn-primary btn-search" disabled={loading}>
                             {loading ? <Loader size={16} className="spin" /> : <Search size={16} />}
-                            Buscar
+                            Pesquisar
                         </button>
                         <button 
                             type="button" 
@@ -84,15 +94,15 @@ const WebImageSearchModal = ({ isOpen, onClose, onSelectImage, initialQuery = ''
                         </button>
                     </form>
 
-                    {/* 2. Dedicated Paste Link Bar */}
+                    {/* 2. Área para colar URL direta */}
                     <div className="paste-link-bar-container" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '14px', marginTop: '14px' }}>
                         <label style={{ fontSize: '12px', fontWeight: '700', color: '#334155', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
-                            <Link size={15} style={{ color: '#0284c7' }} /> Cole aqui o link da imagem do Google e clique em Salvar:
+                            <Link size={15} style={{ color: '#0284c7' }} /> Ou cole o link direto da imagem (URL terminada em .jpg/.png):
                         </label>
                         <form onSubmit={(e) => { e.preventDefault(); if (pastedUrl.trim()) handleConfirm(pastedUrl.trim()); }} style={{ display: 'flex', gap: '10px' }}>
                             <input 
-                                type="text" 
-                                placeholder="https://exemplo.com/foto.jpg ou link de imagem do Google..."
+                                type="url" 
+                                placeholder="https://exemplo.com/foto-produto.jpg"
                                 value={pastedUrl}
                                 onChange={(e) => {
                                     setPastedUrl(e.target.value);
@@ -112,12 +122,12 @@ const WebImageSearchModal = ({ isOpen, onClose, onSelectImage, initialQuery = ''
                         {pastedUrl.trim() && (
                             <div style={{ marginTop: '12px', textAlign: 'center', background: '#ecfdf5', padding: '14px', borderRadius: '12px', border: '2px dashed #10b981' }}>
                                 <span style={{ fontSize: '12px', color: '#047857', fontWeight: '700', display: 'block', marginBottom: '8px' }}>
-                                    📸 Imagem Encontrada! Pré-visualização:
+                                    📸 Pré-visualização do link inserido:
                                 </span>
                                 <img 
                                     src={pastedUrl.trim()} 
                                     alt="Pré-visualização" 
-                                    style={{ maxHeight: '130px', objectFit: 'contain', borderRadius: '8px', border: '1px solid #cbd5e1', background: '#ffffff', marginBottom: '12px' }}
+                                    style={{ maxHeight: '120px', objectFit: 'contain', borderRadius: '8px', border: '1px solid #cbd5e1', background: '#ffffff', marginBottom: '10px' }}
                                     onError={(e) => { e.target.style.display = 'none'; }}
                                 />
                                 <div>
@@ -125,21 +135,21 @@ const WebImageSearchModal = ({ isOpen, onClose, onSelectImage, initialQuery = ''
                                         type="button" 
                                         className="btn btn-success" 
                                         onClick={() => handleConfirm(pastedUrl.trim())}
-                                        style={{ background: '#10b981', color: '#ffffff', padding: '10px 24px', fontWeight: '800', fontSize: '14px', borderRadius: '8px', border: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', boxShadow: '0 4px 6px -1px rgba(16, 185, 129, 0.3)' }}
+                                        style={{ background: '#10b981', color: '#ffffff', padding: '8px 20px', fontWeight: '800', fontSize: '13px', borderRadius: '8px', border: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
                                     >
-                                        <Check size={18} /> Usar Esta Foto
+                                        <Check size={16} /> Usar Esta Foto
                                     </button>
                                 </div>
                             </div>
                         )}
                     </div>
 
-                    {/* Image Candidates Grid */}
-                    <div className="image-results-container">
+                    {/* Grade de Resultados */}
+                    <div className="image-results-container" style={{ marginTop: '16px' }}>
                         {loading ? (
                             <div className="loading-state">
                                 <Loader size={32} className="spin" />
-                                <p>Pesquisando imagens na web...</p>
+                                <p>Buscando imagens correspondentes na web...</p>
                             </div>
                         ) : results.length > 0 ? (
                             <div className="image-candidates-grid">
@@ -154,8 +164,9 @@ const WebImageSearchModal = ({ isOpen, onClose, onSelectImage, initialQuery = ''
                                             <div className="card-image-box">
                                                 <img 
                                                     src={item.url} 
-                                                    alt={item.title} 
+                                                    alt={item.title || 'Produto'} 
                                                     onError={(e) => {
+                                                        // Remove o card se a imagem quebrar
                                                         e.target.closest('.candidate-card').style.display = 'none';
                                                     }}
                                                 />
@@ -166,8 +177,8 @@ const WebImageSearchModal = ({ isOpen, onClose, onSelectImage, initialQuery = ''
                                                 )}
                                             </div>
                                             <div className="card-info">
-                                                <span className="source-tag">{item.source}</span>
-                                                <p className="image-title">{item.title}</p>
+                                                <span className="source-tag">{item.source || 'Web'}</span>
+                                                <p className="image-title">{item.title || 'Imagem do produto'}</p>
                                             </div>
                                             <button 
                                                 type="button" 
@@ -186,8 +197,8 @@ const WebImageSearchModal = ({ isOpen, onClose, onSelectImage, initialQuery = ''
                         ) : (
                             <div className="empty-results">
                                 <ImageIcon size={48} className="empty-icon" />
-                                <p>Nenhuma imagem encontrada para esta busca.</p>
-                                <span>Tente pesquisar por termos mais simples como "Dipirona" ou "Dipirona 500mg".</span>
+                                <p>Nenhuma imagem encontrada automaticamente.</p>
+                                <span>Tente refinar o nome do produto ou utilize o botão do <strong>Google Imagens</strong> acima para copiar o link manualmente.</span>
                             </div>
                         )}
                     </div>
