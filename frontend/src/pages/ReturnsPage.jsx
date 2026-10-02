@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import ManagerAuthModal from '../components/ManagerAuthModal';
 
 const ReturnsPage = () => {
