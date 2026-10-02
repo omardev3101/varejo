@@ -290,20 +290,20 @@ class ProductController {
 
             const searchVariations = sanitizeProductQuery(query);
 
-            // 2. Primary: Google Index & Official Pharmaceutical Images
+            // 2. Primary: Bing Images (reliable alternative to Google for direct scraping)
             for (const qTerm of searchVariations) {
                 if (results.length >= 12) break;
                 try {
-                    const crUrl = `https://consultaremedios.com.br/busca?termo=${encodeURIComponent(qTerm)}`;
+                    const crUrl = `https://www.bing.com/images/search?q=${encodeURIComponent(qTerm)}`;
                     const response = await axios.get(crUrl, {
                         headers: {
                             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
                             'Accept-Language': 'pt-BR,pt;q=0.9'
                         },
-                        timeout: 3500
+                        timeout: 4000
                     });
                     const html = response.data || '';
-                    const matches = [...html.matchAll(/(https:\/\/uploads\.consultaremedios\.com\.br\/product_variation_images\/[^"'\s\\]+)/gi)].map(m => m[1]);
+                    const matches = [...html.matchAll(/murl&quot;:&quot;(https:\/\/[^&"]+)&quot;/gi)].map(m => m[1]);
                     const uniqueCR = [...new Set(matches)];
 
                     uniqueCR.slice(0, 10).forEach(u => {
@@ -311,12 +311,12 @@ class ProductController {
                             results.push({
                                 title: query,
                                 url: u,
-                                source: 'Google / Imagens'
+                                source: 'GOOGLE / IMAGENS'
                             });
                         }
                     });
                 } catch (err) {
-                    console.error('Google search error:', err.message);
+                    console.error('Image search error:', err.message);
                 }
             }
 

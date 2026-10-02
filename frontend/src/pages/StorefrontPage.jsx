@@ -120,7 +120,7 @@ const StorefrontPage = () => {
             setLoadingProducts(true);
             const res = await axios.get(`${API_BASE}/products`);
             setProducts(res.data);
-            const cats = [...new Set(res.data.map(p => p.category ? p.category.name : 'Geral'))];
+            const cats = [...new Set(res.data.map(p => p.category_rel ? p.category_rel.name : 'Geral'))];
             setCategories(cats);
         } catch (err) {
             console.error('Error fetching public products:', err);
@@ -449,7 +449,7 @@ const getProductImageUrl = (product) => {
                               (p.barcode && p.barcode.includes(search)) ||
                               (p.active_principle && p.active_principle.toLowerCase().includes(search.toLowerCase()));
         
-        const matchesCategory = selectedCategory === 'all' || (p.category && (p.category.name === selectedCategory || p.category === selectedCategory));
+        const matchesCategory = selectedCategory === 'all' || (p.category_rel && p.category_rel.name === selectedCategory) || (!p.category_rel && selectedCategory === 'Geral');
 
         return matchesSearch && matchesCategory;
     });
