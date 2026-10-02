@@ -238,8 +238,6 @@ const TenantsPage = ({ onNavigate }) => {
                         <div className="tabs-header" style={{ display: 'flex', gap: '12px', borderBottom: '1px solid var(--border)', marginBottom: '24px', paddingBottom: '8px' }}>
                             <button className={`tab-btn ${activeTab === 'geral' ? 'active' : ''}`} type="button" onClick={() => setActiveTab('geral')}>Geral</button>
                             <button className={`tab-btn ${activeTab === 'fiscal' ? 'active' : ''}`} type="button" onClick={() => setActiveTab('fiscal')}>Fiscal e NFC-e</button>
-                            <button className={`tab-btn ${activeTab === 'sngpc' ? 'active' : ''}`} type="button" onClick={() => setActiveTab('sngpc')}>SNGPC (Anvisa)</button>
-                            
                             <button className={`tab-btn ${activeTab === 'acesso' ? 'active' : ''}`} type="button" onClick={() => setActiveTab('acesso')}>Módulos de Acesso</button>
                         </div>
 
@@ -367,35 +365,6 @@ const TenantsPage = ({ onNavigate }) => {
                                         <div className="form-group" style={{ flex: 1 }}>
                                             <label>Próximo Número NFC-e</label>
                                             <input type="number" name="nfce_next_number" value={formData.nfce_next_number} onChange={handleChange} />
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-
-                            {activeTab === 'sngpc' && (
-                                <div>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-                                        <input type="checkbox" id="sngpc_active" name="sngpc_active" checked={formData.sngpc_active} onChange={handleChange} style={{ width: '20px', height: '20px', accentColor: 'var(--primary)' }} />
-                                        <label htmlFor="sngpc_active">Habilitar Transmissão SNGPC (Anvisa)</label>
-                                    </div>
-                                    <div style={{ display: 'flex', gap: '16px' }}>
-                                        <div className="form-group" style={{ flex: 2 }}>
-                                            <label>Farmacêutico Responsável</label>
-                                            <input type="text" name="sngpc_technical_manager" value={formData.sngpc_technical_manager} onChange={handleChange} disabled={!formData.sngpc_active} />
-                                        </div>
-                                        <div className="form-group" style={{ flex: 1 }}>
-                                            <label>CRF</label>
-                                            <input type="text" name="sngpc_crf" value={formData.sngpc_crf} onChange={handleChange} disabled={!formData.sngpc_active} />
-                                        </div>
-                                    </div>
-                                    <div style={{ display: 'flex', gap: '16px' }}>
-                                        <div className="form-group" style={{ flex: 1 }}>
-                                            <label>E-mail de Acesso Anvisa</label>
-                                            <input type="email" name="sngpc_email" value={formData.sngpc_email} onChange={handleChange} disabled={!formData.sngpc_active} />
-                                        </div>
-                                        <div className="form-group" style={{ flex: 1 }}>
-                                            <label>Senha Anvisa</label>
-                                            <input type="password" name="sngpc_password" value={formData.sngpc_password} onChange={handleChange} disabled={!formData.sngpc_active} />
                                         </div>
                                     </div>
                                 </div>
